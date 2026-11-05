@@ -1,0 +1,15 @@
+flowchart LR
+  U["Usuários"] --> ALB["Application Load Balancer"]
+  S["Sensores"] --> ALB
+  subgraph AZ_a["Zona A"]
+    T1["ECS Fargate · tarefa 1\n1 vCPU / 2 GB ARM"]
+    DBP[("RDS PostgreSQL primário\ndb.t4g.small")]
+  end
+  subgraph AZ_b["Zona B"]
+    T2["ECS Fargate · tarefa 2"]
+    DBS[("RDS standby\n(Multi-AZ)")]
+  end
+  ALB --> T1 & T2
+  T1 & T2 --> DBP
+  DBP -. replicação síncrona .-> DBS
+  T1 & T2 -- "eventos (outbox)" --> Q["SQS"]

@@ -1,0 +1,18 @@
+flowchart LR
+  ID["Identidade (externo)"]
+  REDE["Rede"]
+  EST["Estoque"]
+  REQ["Requisição (core)"]
+  EXP["Expedição"]
+  TRA["Transporte (core)"]
+  SEN["Fabricante do sensor (externo)"]
+  NOT["Notificações (externo)"]
+  EST -- "U → D · cliente-fornecedor" --> REQ
+  REQ -- "U → D · cliente-fornecedor" --> EXP
+  EST -- "U → D · linguagem publicada" --> EXP
+  EXP -- "U → D · cliente-fornecedor" --> TRA
+  SEN -- "U → D · camada anticorrupção" --> TRA
+  REDE -- "U → D · serviço aberto (OHS)" --> REQ
+  REDE -- "U → D · serviço aberto (OHS)" --> TRA
+  ID -- "conformista" --> REQ
+  TRA -- "conformista" --> NOT

@@ -1,0 +1,9 @@
+flowchart LR
+  U["Usuários"] --> ALB["Application Load Balancer"]
+  ALB --> APP["ECS Fargate · monolito modular\n3 a 6 tarefas (autoscaling por CPU)"]
+  S["Sensores"] --> ALB --> TR["ECS Fargate · transporte-service\n2 tarefas 0,5 vCPU"]
+  APP -- eventos --> Q["SQS (eventos + buffer de telemetria)"]
+  TR <-- consome --> Q
+  APP --> DB[("RDS PostgreSQL db.t4g.large Multi-AZ\nschemas por contexto")]
+  TR --> DB
+  APP --> S3[("S3 · guias em PDF")]

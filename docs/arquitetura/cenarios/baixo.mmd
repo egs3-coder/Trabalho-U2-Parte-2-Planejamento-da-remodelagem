@@ -1,0 +1,4 @@
+flowchart LR
+  U["Usuários (web)"] --> R["Render · Web Service 1 CPU / 2 GB\nmonolito modular (imagem Docker da Parte 1)"]
+  S["Sensores das caixas"] -- "HTTPS" --> R
+  R --> DB[("Render Postgres 0,5 CPU / 1 GB\n10 GB")]

@@ -1,0 +1,42 @@
+classDiagram
+  class Requisicao {
+    <<Raiz do agregado>>
+    RequisicaoId id
+    UnidadeSolicitanteId solicitante
+    Prioridade prioridade
+    JustificativaClinica justificativa
+    StatusRequisicao status
+    registrar()
+    alocar(itemId, BolsaReservada)
+    marcarAtendida()
+    cancelar(motivo)
+    confirmarEntrega()
+  }
+  class ItemRequisicao {
+    <<Entidade>>
+    ItemId id
+    Hemocomponente hemocomponente
+    TipoSanguineo tipoReceptor
+    Quantidade quantidade
+  }
+  class AlocacaoBolsa {
+    <<Entidade>>
+    CodigoBolsa codigo
+    TipoSanguineo tipoBolsa
+    Validade validade
+  }
+  class TipoSanguineo {
+    <<Objeto de valor>>
+    GrupoABO grupo
+    FatorRh rh
+    podeDoarPara(TipoSanguineo)
+  }
+  class Validade {
+    <<Objeto de valor>>
+    LocalDateTime limite
+    estaValidaEm(Instant)
+  }
+  Requisicao "1" *-- "1..*" ItemRequisicao
+  ItemRequisicao "1" *-- "0..*" AlocacaoBolsa
+  ItemRequisicao ..> TipoSanguineo
+  AlocacaoBolsa ..> Validade

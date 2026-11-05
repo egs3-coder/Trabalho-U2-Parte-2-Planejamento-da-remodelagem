@@ -1,0 +1,18 @@
+sequenceDiagram
+  participant R as Requisição (orquestrador)
+  participant E as Estoque
+  participant X as Expedição
+  participant T as Transporte
+  R->>E: ReservarBolsas (comando)
+  E-->>R: BolsasReservadas
+  R->>R: alocar + marcarAtendida
+  R->>X: RequisicaoAtendida
+  X-->>R: RemessaFalhou (bolsa danificada na separação)
+  Note over R,E: Compensação
+  R->>E: LiberarReserva / DescartarBolsa (comando)
+  R->>R: voltar para EM_ATENDIMENTO
+  R->>E: ReservarBolsas (nova tentativa)
+  E-->>R: BolsasReservadas
+  R->>X: RequisicaoAtendida
+  X-->>T: RemessaDespachada
+  T-->>R: EntregaConcluida

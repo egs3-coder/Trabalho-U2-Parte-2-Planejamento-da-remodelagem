@@ -1,0 +1,15 @@
+flowchart LR
+  GW["API Gateway / ALB"] --> REQ["requisicao-service"]
+  GW --> EST["estoque-service"]
+  GW --> EXP["expedicao-service"]
+  GW --> TRA["transporte-service"]
+  REQ -- "REST síncrono: consultar disponibilidade" --> EST
+  REQ <-. "eventos" .-> BUS[("Broker de eventos\nSNS+SQS ou RabbitMQ")]
+  EST <-.-> BUS
+  EXP <-.-> BUS
+  TRA <-.-> BUS
+  SENS["Sensores das caixas"] -- "MQTT" --> IOT["IoT Core"] --> TRA
+  REQ --- DB1[("PostgreSQL requisicao")]
+  EST --- DB2[("PostgreSQL estoque")]
+  EXP --- DB3[("PostgreSQL expedicao")]
+  TRA --- DB4[("Séries temporais\ntelemetria")]
