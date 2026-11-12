@@ -354,11 +354,13 @@ Preços on-demand em dólar, conferidos pelo squad em **12/11/2026** na página 
 
 Conforme o PO-CESAR-021 (categoria Condicionado). Apenas dados sintéticos do Rota Vital foram usados.
 
-| Ferramenta | Finalidade | Como foi validado |
+| Quem / ferramenta | O que fez | Como foi validado |
 | --- | --- | --- |
-| Claude (Anthropic) | Rascunho da estrutura, do glossário, do mapa de contextos, dos ADRs, das contas da Lei de Little e dos diagramas | Cada integrante revisou uma seção; termos comparados com o código da Parte 1; contas refeitas na planilha `orcamento.xlsx` |
-| Claude (Anthropic) | Busca das páginas de preço | Nenhum preço aceito da IA: cada valor conferido pelo squad em 12/11/2026 em render.com/pricing e na AWS Pricing Calculator (links públicos nas tabelas da seção E.4); o preço do RDS db.t4g.small foi corrigido de 0,064 para 0,065 USD/h |
-| Cucumber-JVM | Validação do cenário Gherkin | Execução na Parte 3 |
+| Claude (Anthropic) | Estrutura e redação do documento, subdomínios, glossário, mapa de contextos, agregado e Gherkin, arquitetura em camadas, projeção com microsserviços, ADRs, diagramas Mermaid, contas da Lei de Little, fórmulas da planilha e slides | Conteúdo revisado pelo squad antes da entrega; contas conferidas na planilha `orcamento.xlsx` |
+| **Squad (manual, sem IA)** | Conferência de todos os preços: montagem das duas estimativas na **AWS Pricing Calculator** (moderado e alto, us-east-1) serviço a serviço e consulta de **render.com/pricing**; levantamento dos valores lançados na planilha | Preço unitário de cada item comparado com o da calculadora oficial em 12/11/2026; a divergência encontrada no RDS db.t4g.small (0,064 → 0,065 USD/h) foi corrigida; links públicos das estimativas na seção E.4 |
+| Cucumber-JVM | Execução do cenário Gherkin da seção B | Na Parte 3 |
+
+Nenhum preço sugerido por IA foi usado: todos os valores do orçamento vêm das fontes oficiais consultadas pelo squad.
 
 ## Referências
 
