@@ -6,7 +6,7 @@ Squad **Hemotrack** · Infraestrutura de Software · ADS · CESAR School · 2026
 
 ## Identificação e premissas
 
-O squad Hemotrack remodela o Rota Vital como um monolito modular em três camadas com cinco bounded contexts, projeta quatro microsserviços e orça três cenários entre US$ 47 e US$ 470 por mês.
+O squad Hemotrack remodela o Rota Vital como um monolito modular em três camadas com cinco bounded contexts, projeta quatro microsserviços e orça três cenários entre US$ 47 e US$ 473 por mês.
 
 | Item | Preencher |
 | --- | --- |
@@ -257,7 +257,7 @@ Arquivos em `docs/arquitetura/adr/0001-decomposicao.md` e `0002-eventos-com-outb
 
 ## E. Três cenários com orçamento
 
-O custo mensal vai de US$ 47 (baixo) a US$ 470 (alto), mas o custo por pedido cai de US$ 0,0104 para US$ 0,0013, porque a infraestrutura fixa se dilui em mais requisições.
+O custo mensal vai de US$ 47 (baixo) a US$ 473 (alto), mas o custo por pedido cai de US$ 0,0104 para US$ 0,0013, porque a infraestrutura fixa se dilui em mais requisições.
 
 ### E.1 Premissas de carga
 
@@ -308,44 +308,45 @@ O gargalo não é o banco (L\_db ≤ 6), e sim a disponibilidade: no moderado a 
 
 ### E.4 Orçamento por cenário
 
-Preços on-demand em dólar, 730 h = 1 mês, consultados em 04/11/2026 e **conferidos pelo squad na fonte** (preço sugerido por IA não vale como fonte).
+Preços on-demand em dólar, conferidos pelo squad em **12/11/2026** na página oficial do Render e na **AWS Pricing Calculator** (uma estimativa pública por cenário, linkada em cada item). A calculadora não desconta cotas gratuitas, e 730 h = 1 mês.
 
-**Baixo — Render**
+**Baixo — Render (Oregon, região onde o squad já hospeda o Rota Vital)**
 
 | Item | Qtd. | Preço unit. | US$/mês | Região | Fonte | Data |
 | --- | --- | --- | --- | --- | --- | --- |
-| Web Service 1 CPU / 2 GB | 1 | 25,00/mês | 25,00 | Virginia | [Render](https://render.com/pricing) | 04/11/26 |
-| Postgres 0,5 CPU / 1 GB | 1 | 19,00/mês | 19,00 | Virginia | [Render](https://render.com/pricing) | 04/11/26 |
-| Armazenamento Postgres | 10 GB | 0,30/GB | 3,00 | Virginia | [Render](https://render.com/pricing) | 04/11/26 |
-| Workspace Hobby e banda (5 GB inclusos) | 1 | 0,00 | 0,00 | — | [Render](https://render.com/pricing) | 04/11/26 |
+| Web Service 1 CPU / 2 GB (`1c-2g`) | 1 | 25,00/mês | 25,00 | Oregon | [render.com/pricing](https://render.com/pricing) | 12/11/26 |
+| Postgres 0,5 CPU / 1 GB (`0.5c-1g`) | 1 | 19,00/mês | 19,00 | Oregon | [render.com/pricing](https://render.com/pricing) | 12/11/26 |
+| Armazenamento Postgres | 10 GB | 0,30/GB | 3,00 | Oregon | [render.com/pricing](https://render.com/pricing) | 12/11/26 |
+| Workspace Hobby e banda (inclusa) | 1 | 0,00 | 0,00 | — | [render.com/pricing](https://render.com/pricing) | 12/11/26 |
 | **Total · custo por pedido (4.500)** |  |  | **47,00 · 0,0104** |  |  |  |
 
-**Moderado — AWS**
+**Moderado — AWS us-east-1** · [estimativa pública na AWS Pricing Calculator](https://calculator.aws/#/estimate?id=71d5f083738612902c899bf5a25a2fd44c668a7d)
 
 | Item | Qtd. | Preço unit. | US$/mês | Região | Fonte | Data |
 | --- | --- | --- | --- | --- | --- | --- |
-| Fargate ARM vCPU | 2 × 1 vCPU × 730 h | 0,03238/vCPU-h | 47,27 | us-east-1 | [AWS](https://aws.amazon.com/fargate/pricing/) | 04/11/26 |
-| Fargate ARM memória | 2 × 2 GB × 730 h | 0,00356/GB-h | 10,40 | us-east-1 | [AWS](https://aws.amazon.com/fargate/pricing/) | 04/11/26 |
-| Load balancer (ALB) | 730 h + 1 LCU | 0,0225/h + 0,008/LCU-h | 22,27 | us-east-1 | [Opslyft](https://www.opslyft.com/blog/aws-load-balancer-pricing) | 04/11/26 |
-| RDS db.t4g.small Multi-AZ | 730 h | 0,064/h | 46,72 | us-east-1 | [Holori](https://calculator.holori.com/aws/rds) | 04/11/26 |
-| RDS gp3 Multi-AZ | 20 GB | 0,23/GB | 4,60 | us-east-1 | [usage.ai](https://www.usage.ai/blogs/aws/reserved-instances/rds/storage-cost/) | 04/11/26 |
-| IPv4 público | 4 × 730 h | 0,005/h | 14,60 | us-east-1 | [AWS](https://aws.amazon.com/blogs/aws/new-aws-public-ipv4-address-charge-public-ip-insights) | 04/11/26 |
-| SQS + CloudWatch Logs | 0,1 M req + 5 GB pagos | 0,40/M · 0,50/GB | 2,54 | us-east-1 | [AWS](https://aws.amazon.com/sqs/pricing/), [DevZero](https://www.devzero.io/blog/aws-cloudwatch-pricing) | 04/11/26 |
-| **Total · custo por pedido (45.000)** |  |  | **148,40 · 0,0033** |  |  |  |
+| Fargate ARM (vCPU + memória) | 2 tarefas × 1 vCPU / 2 GB × 730 h | 0,03238/vCPU-h · 0,00356/GB-h | 57,66 | us-east-1 | [AWS Calculator](https://calculator.aws/#/estimate?id=71d5f083738612902c899bf5a25a2fd44c668a7d) | 12/11/26 |
+| Load balancer (ALB) | 730 h + 1 LCU | 0,0225/h · 0,008/LCU-h | 22,27 | us-east-1 | [AWS Calculator](https://calculator.aws/#/estimate?id=71d5f083738612902c899bf5a25a2fd44c668a7d) | 12/11/26 |
+| RDS PostgreSQL db.t4g.small Multi-AZ | 730 h | 0,065/h | 47,45 | us-east-1 | [AWS Calculator](https://calculator.aws/#/estimate?id=71d5f083738612902c899bf5a25a2fd44c668a7d) | 12/11/26 |
+| RDS gp3 Multi-AZ | 20 GB | 0,23/GB | 4,60 | us-east-1 | [AWS Calculator](https://calculator.aws/#/estimate?id=71d5f083738612902c899bf5a25a2fd44c668a7d) | 12/11/26 |
+| IPv4 público | 4 × 730 h | 0,005/h | 14,60 | us-east-1 | [AWS Calculator](https://calculator.aws/#/estimate?id=71d5f083738612902c899bf5a25a2fd44c668a7d) | 12/11/26 |
+| SQS Standard | 1,1 M req | 0,40/M | 0,44 | us-east-1 | [AWS Calculator](https://calculator.aws/#/estimate?id=71d5f083738612902c899bf5a25a2fd44c668a7d) | 12/11/26 |
+| CloudWatch Logs (ingestão + 1 mês) | 10 GB | 0,50/GB | 5,05 | us-east-1 | [AWS Calculator](https://calculator.aws/#/estimate?id=71d5f083738612902c899bf5a25a2fd44c668a7d) | 12/11/26 |
+| **Total · custo por pedido (45.000)** |  |  | **152,07 · 0,0034** |  |  |  |
 
-**Alto — AWS**
+**Alto — AWS us-east-1** · [estimativa pública na AWS Pricing Calculator](https://calculator.aws/#/estimate?id=e9376074563bc3ece0ea5427d2302774428e035e)
 
 | Item | Qtd. | Preço unit. | US$/mês | Região | Fonte | Data |
 | --- | --- | --- | --- | --- | --- | --- |
-| Fargate ARM vCPU (monolito + transporte) | (4 × 1 + 2 × 0,5) vCPU × 730 h | 0,03238/vCPU-h | 118,19 | us-east-1 | [AWS](https://aws.amazon.com/fargate/pricing/) | 04/11/26 |
-| Fargate ARM memória | (4 × 2 + 2 × 1) GB × 730 h | 0,00356/GB-h | 25,99 | us-east-1 | [AWS](https://aws.amazon.com/fargate/pricing/) | 04/11/26 |
-| Load balancer (ALB) | 730 h + 5 LCU | 0,0225/h + 0,008/LCU-h | 45,63 | us-east-1 | [Opslyft](https://www.opslyft.com/blog/aws-load-balancer-pricing) | 04/11/26 |
-| RDS db.t4g.large Multi-AZ | 730 h | 0,258/h | 188,34 | us-east-1 | [Holori](https://calculator.holori.com/aws/rds) | 04/11/26 |
-| RDS gp3 Multi-AZ | 100 GB | 0,23/GB | 23,00 | us-east-1 | [usage.ai](https://www.usage.ai/blogs/aws/reserved-instances/rds/storage-cost/) | 04/11/26 |
-| IPv4 público | 8 × 730 h | 0,005/h | 29,20 | us-east-1 | [AWS](https://aws.amazon.com/blogs/aws/new-aws-public-ipv4-address-charge-public-ip-insights) | 04/11/26 |
-| SQS (eventos + telemetria) | 46,5 M req pagas | 0,40/M | 18,60 | us-east-1 | [AWS](https://aws.amazon.com/sqs/pricing/) | 04/11/26 |
-| CloudWatch Logs + S3 (guias) | 40 GB + 36 GB | 0,50/GB · 0,023/GB | 20,83 | us-east-1 | [DevZero](https://www.devzero.io/blog/aws-cloudwatch-pricing), [AWS](https://aws.amazon.com/s3/pricing/) | 04/11/26 |
-| **Total · custo por pedido (360.000)** |  |  | **469,78 · 0,0013** |  |  |  |
+| Fargate ARM monolito | 4 tarefas × 1 vCPU / 2 GB × 730 h | 0,03238/vCPU-h · 0,00356/GB-h | 115,34 | us-east-1 | [AWS Calculator](https://calculator.aws/#/estimate?id=e9376074563bc3ece0ea5427d2302774428e035e) | 12/11/26 |
+| Fargate ARM transporte-service | 2 tarefas × 0,5 vCPU / 1 GB × 730 h | 0,03238/vCPU-h · 0,00356/GB-h | 28,84 | us-east-1 | [AWS Calculator](https://calculator.aws/#/estimate?id=e9376074563bc3ece0ea5427d2302774428e035e) | 12/11/26 |
+| Load balancer (ALB) | 730 h + 5 LCU | 0,0225/h · 0,008/LCU-h | 45,63 | us-east-1 | [AWS Calculator](https://calculator.aws/#/estimate?id=e9376074563bc3ece0ea5427d2302774428e035e) | 12/11/26 |
+| RDS PostgreSQL db.t4g.large Multi-AZ | 730 h | 0,258/h | 188,34 | us-east-1 | [AWS Calculator](https://calculator.aws/#/estimate?id=e9376074563bc3ece0ea5427d2302774428e035e) | 12/11/26 |
+| RDS gp3 Multi-AZ | 100 GB | 0,23/GB | 23,00 | us-east-1 | [AWS Calculator](https://calculator.aws/#/estimate?id=e9376074563bc3ece0ea5427d2302774428e035e) | 12/11/26 |
+| IPv4 público | 8 × 730 h | 0,005/h | 29,20 | us-east-1 | [AWS Calculator](https://calculator.aws/#/estimate?id=e9376074563bc3ece0ea5427d2302774428e035e) | 12/11/26 |
+| SQS Standard (eventos + telemetria) | 47,5 M req | 0,40/M | 19,00 | us-east-1 | [AWS Calculator](https://calculator.aws/#/estimate?id=e9376074563bc3ece0ea5427d2302774428e035e) | 12/11/26 |
+| CloudWatch Logs (ingestão + 1 mês) | 45 GB | 0,50/GB | 22,70 | us-east-1 | [AWS Calculator](https://calculator.aws/#/estimate?id=e9376074563bc3ece0ea5427d2302774428e035e) | 12/11/26 |
+| S3 Standard (guias em PDF) | 36 GB | 0,023/GB | 0,83 | us-east-1 | [AWS Calculator](https://calculator.aws/#/estimate?id=e9376074563bc3ece0ea5427d2302774428e035e) | 12/11/26 |
+| **Total · custo por pedido (360.000)** |  |  | **472,88 · 0,0013** |  |  |  |
 
 **Fora do orçamento:** transferência para a internet, domínio, ambiente de homologação (cerca de +50%) e suporte pago. **Região:** em São Paulo (sa-east-1) o banco custaria cerca do dobro ([db.t4g.large: US$ 201 contra US$ 94/mês, Single-AZ](https://www.bytebase.com/dbcost/rds/instance/db.t4g.large.md)); com dados sintéticos, o squad escolheu us-east-1, a rever pela LGPD em produção real.
 
@@ -356,7 +357,7 @@ Conforme o PO-CESAR-021 (categoria Condicionado). Apenas dados sintéticos do Ro
 | Ferramenta | Finalidade | Como foi validado |
 | --- | --- | --- |
 | Claude (Anthropic) | Rascunho da estrutura, do glossário, do mapa de contextos, dos ADRs, das contas da Lei de Little e dos diagramas | Cada integrante revisou uma seção; termos comparados com o código da Parte 1; contas refeitas na planilha `orcamento.xlsx` |
-| Claude (Anthropic) | Busca das páginas de preço | Nenhum preço aceito da IA: cada valor conferido pelo squad na página oficial ou na AWS Pricing Calculator |
+| Claude (Anthropic) | Busca das páginas de preço | Nenhum preço aceito da IA: cada valor conferido pelo squad em 12/11/2026 em render.com/pricing e na AWS Pricing Calculator (links públicos nas tabelas da seção E.4); o preço do RDS db.t4g.small foi corrigido de 0,064 para 0,065 USD/h |
 | Cucumber-JVM | Validação do cenário Gherkin | Execução na Parte 3 |
 
 ## Referências

@@ -59,7 +59,7 @@ features/alocar_bolsa.feature             # cenário Gherkin (executado na Parte
 
 - **Bounded contexts:** Estoque, Requisição (core), Expedição, Transporte (core), Rede.
 - **Decisão:** monolito modular em três camadas; projeção para quatro microsserviços (ADR 0001).
-- **Cenários:** baixo US$ 47/mês (US$ 0,0104 por pedido) · moderado US$ 148/mês (US$ 0,0033) · alto US$ 470/mês (US$ 0,0013). Preços on-demand consultados em 04/11/2026; fontes na planilha.
+- **Cenários:** baixo US$ 47,00/mês (US$ 0,0104 por pedido) · moderado US$ 152,07/mês (US$ 0,0034) · alto US$ 472,88/mês (US$ 0,0013). Preços on-demand conferidos pelo squad em 12/11/2026 em [render.com/pricing](https://render.com/pricing) e na AWS Pricing Calculator ([moderado](https://calculator.aws/#/estimate?id=71d5f083738612902c899bf5a25a2fd44c668a7d) · [alto](https://calculator.aws/#/estimate?id=e9376074563bc3ece0ea5427d2302774428e035e)).
 
 ## Diagramas
 

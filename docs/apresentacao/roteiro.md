@@ -26,8 +26,10 @@ Até **10 minutos** de apresentação + 5 minutos de perguntas. Qualquer integra
 | Cenário | Custo/mês | Pedidos/mês | Custo por pedido |
 | --- | --- | --- | --- |
 | Baixo (Render) | US$ 47,00 | 4.500 | US$ 0,0104 |
-| Moderado (AWS) | US$ 148,40 | 45.000 | US$ 0,0033 |
-| Alto (AWS) | US$ 469,78 | 360.000 | US$ 0,0013 |
+| Moderado (AWS) | US$ 152,07 | 45.000 | US$ 0,0034 |
+| Alto (AWS) | US$ 472,88 | 360.000 | US$ 0,0013 |
+
+**Fontes:** preços conferidos em 12/11/2026 na [AWS Pricing Calculator (moderado)](https://calculator.aws/#/estimate?id=71d5f083738612902c899bf5a25a2fd44c668a7d), [AWS Pricing Calculator (alto)](https://calculator.aws/#/estimate?id=e9376074563bc3ece0ea5427d2302774428e035e) e em [render.com/pricing](https://render.com/pricing). Única correção em relação à primeira versão: RDS db.t4g.small de 0,064 para 0,065 USD/h.
 
 **Mensagem central:** o custo total sobe 10×, mas o custo por pedido cai 8×, porque a infraestrutura fixa se dilui.
 
