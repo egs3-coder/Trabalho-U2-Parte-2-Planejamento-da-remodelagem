@@ -146,11 +146,11 @@ As dependências apontam para baixo; a camada de dados implementa as interfaces 
 <summary>Ver código Mermaid</summary>
 
 ```mermaid
-flowchart TB
+flowchart LR
   AP["Apresentação\ncontrollers REST · telas"] --> APL["Negócio · aplicação\ncasos de uso"]
   APL --> DOM["Negócio · domínio\nagregados · VOs · interfaces de repositório"]
-  DAD["Dados\nJPA · adaptadores · fila"] -. implementa interfaces do domínio .-> DOM
-  APL --> DAD
+  APL --> DAD["Dados\nJPA · adaptadores · fila"]
+  DAD -. "implementa interfaces do domínio" .-> DOM
 ```
 
 </details>
