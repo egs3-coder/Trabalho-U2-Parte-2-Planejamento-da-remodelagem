@@ -15,27 +15,44 @@ Infraestrutura de Software · ADS · CESAR School · 2026.2
 | Thiago Cardozo da Conceição | Frontend / UI Designer |
 | Eloi de Lima Sousa | Frontend / UI Designer |
 
+## Entregas
+
+| Arquivo | O que é |
+| --- | --- |
+| [`docs/entregas/Hemotrack-Rota-Vital-Parte-2.pdf`](docs/entregas/Hemotrack-Rota-Vital-Parte-2.pdf) | Documento completo da Parte 2 (10 páginas, limite de 12) |
+| [`docs/entregas/Hemotrack-Pre-entrega-Secoes-A-e-C.pdf`](docs/entregas/Hemotrack-Pre-entrega-Secoes-A-e-C.pdf) | Pré-entrega de 17/11: seções A e C |
+| [`docs/arquitetura/documento.md`](docs/arquitetura/documento.md) | O mesmo documento em Markdown, legível no GitHub |
+| [`docs/apresentacao/roteiro.md`](docs/apresentacao/roteiro.md) | Divisão da apresentação de 24/11, contas e perguntas prováveis |
+| [`docs/PENDENCIAS.md`](docs/PENDENCIAS.md) | O que ainda falta fazer até a entrega |
+
 ## Estrutura
 
 ```
-docs/arquitetura/
-├── adr/
-│   ├── 0001-decomposicao.md          # monolito modular, Transporte extraído primeiro
-│   └── 0002-eventos-com-outbox.md    # eventos entre contextos com outbox transacional
-├── contexto/
-│   ├── mapa-de-contextos.mmd
-│   └── agregado-requisicao.mmd
-├── camadas/regra-de-dependencia.mmd
-├── microsservicos/
-│   ├── comunicacao.mmd
-│   └── saga-atender-requisicao.mmd
-├── cenarios/
-│   ├── baixo.mmd
-│   ├── moderado.mmd
-│   └── alto.mmd
-├── img/                              # PNG de cada diagrama
-└── orcamento.xlsx                    # Lei de Little e orçamento dos três cenários
-features/alocar_bolsa.feature         # cenário Gherkin (executado na Parte 3)
+docs/
+├── entregas/                             # PDFs para o Classroom
+│   ├── Hemotrack-Rota-Vital-Parte-2.pdf
+│   └── Hemotrack-Pre-entrega-Secoes-A-e-C.pdf
+├── apresentacao/roteiro.md               # divisão, contas e perguntas prováveis
+├── PENDENCIAS.md                         # o que falta até 24/11
+└── arquitetura/
+    ├── documento.md                      # documento completo em Markdown
+    ├── adr/
+    │   ├── 0001-decomposicao.md          # monolito modular, Transporte extraído primeiro
+    │   └── 0002-eventos-com-outbox.md    # eventos entre contextos com outbox transacional
+    ├── contexto/
+    │   ├── mapa-de-contextos.mmd
+    │   └── agregado-requisicao.mmd
+    ├── camadas/regra-de-dependencia.mmd
+    ├── microsservicos/
+    │   ├── comunicacao.mmd
+    │   └── saga-atender-requisicao.mmd
+    ├── cenarios/
+    │   ├── baixo.mmd
+    │   ├── moderado.mmd
+    │   └── alto.mmd
+    ├── img/                              # PNG de cada diagrama
+    └── orcamento.xlsx                    # Lei de Little e orçamento dos três cenários
+features/alocar_bolsa.feature             # cenário Gherkin (executado na Parte 3)
 ```
 
 ## Resumo
