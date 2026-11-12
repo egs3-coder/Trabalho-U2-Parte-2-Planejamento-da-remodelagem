@@ -21,6 +21,7 @@ Infraestrutura de Software · ADS · CESAR School · 2026.2
 | --- | --- |
 | [`docs/entregas/Hemotrack-Rota-Vital-Parte-2.pdf`](docs/entregas/Hemotrack-Rota-Vital-Parte-2.pdf) | Documento completo da Parte 2 (10 páginas, limite de 12) |
 | [`docs/entregas/Hemotrack-Pre-entrega-Secoes-A-e-C.pdf`](docs/entregas/Hemotrack-Pre-entrega-Secoes-A-e-C.pdf) | Pré-entrega de 17/11: seções A e C |
+| [`docs/entregas/Hemotrack-Rota-Vital-Parte-2-Slides.pdf`](docs/entregas/Hemotrack-Rota-Vital-Parte-2-Slides.pdf) | Slides da apresentação de 24/11 (16 slides) |
 | [`docs/arquitetura/documento.md`](docs/arquitetura/documento.md) | O mesmo documento em Markdown, legível no GitHub |
 | [`docs/apresentacao/roteiro.md`](docs/apresentacao/roteiro.md) | Divisão da apresentação de 24/11, contas e perguntas prováveis |
 | [`docs/PENDENCIAS.md`](docs/PENDENCIAS.md) | O que ainda falta fazer até a entrega |
