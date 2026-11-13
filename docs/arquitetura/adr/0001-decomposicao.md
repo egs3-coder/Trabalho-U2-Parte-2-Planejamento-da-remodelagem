@@ -8,7 +8,9 @@ O squad tem 7 pessoas (1 PO, 4 backend, 2 frontend/UI), um único repositório e
 
 ## Decisão
 
-Adotar um monolito modular com cinco módulos (um por bounded context), cada um organizado em três camadas (apresentação, negócio, dados), comunicando-se apenas por casos de uso públicos e eventos. O contexto Transporte é o primeiro candidato a virar serviço separado, quando as leituras de telemetria passarem de ~50 por segundo.
+Adotar um monolito modular com cinco módulos (um por bounded context), cada um organizado em três camadas (apresentação, negócio, dados), comunicando-se apenas por casos de uso públicos e eventos. O contexto Transporte é o primeiro candidato a virar serviço separado, quando as leituras de telemetria passarem de ~10 por segundo (≈300 caixas em trânsito no pico, uma leitura a cada 30 s).
+
+Gatilho medido nos cenários: o moderado tem 80 caixas = 2,7 leituras/s e continua no monolito; o alto tem 600 caixas = 20 leituras/s e já extrai o Transporte. O limite de 10/s deixa folga de quase 4× sobre o moderado e será confirmado no teste de carga da Parte 3: se, com 10 leituras/s, o tempo de resposta das requisições de atendimento (W = 0,20 s) piorar, a extração se antecipa.
 
 ## Consequências
 

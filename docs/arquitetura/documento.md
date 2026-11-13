@@ -2,7 +2,7 @@
 
 Squad **Hemotrack** · Infraestrutura de Software · ADS · CESAR School · 2026.2
 
-> Versão em PDF (10 páginas): [`docs/entregas/Hemotrack-Rota-Vital-Parte-2.pdf`](../entregas/Hemotrack-Rota-Vital-Parte-2.pdf)
+> Versão em PDF (11 páginas): [`docs/entregas/Hemotrack-Rota-Vital-Parte-2.pdf`](../entregas/Hemotrack-Rota-Vital-Parte-2.pdf)
 
 ## Identificação e premissas
 
@@ -12,7 +12,7 @@ O squad Hemotrack remodela o Rota Vital como um monolito modular em três camada
 | --- | --- |
 | Squad | Hemotrack |
 | Integrantes | Ewerton Guilherme da Silva (Product Owner) · Pablo Arthur Eustáquio de Lima, João Ricardo Alves de Brito, Lucas Aprigio dos Santos, Saulo Eduardo Almeida dos Santos (Backend) · Thiago Cardozo da Conceição, Eloi de Lima Sousa (Frontend / UI Design) |
-| Repositório | [github.com/egs3-coder/Trabalho-U2-Parte-2-Planejamento-da-remodelagem](https://github.com/egs3-coder/Trabalho-U2-Parte-2-Planejamento-da-remodelagem) — pasta `docs/arquitetura/` |
+| Repositório | [github.com/egs3-coder/Trabalho-U2-Parte-2-Planejamento-da-remodelagem](https://github.com/egs3-coder/Trabalho-U2-Parte-2-Planejamento-da-remodelagem) — pasta `docs/arquitetura/`. Na Parte 3 a pasta segue, sem mudar de estrutura, para o repositório do código, junto da esteira da Parte 1. |
 | Disciplina | Infraestrutura de Software · ADS · CESAR School · 2026.2 |
 
 **Premissas:** o Rota Vital coordena bolsas de sangue entre um hemocentro e hospitais: requisição → reserva no estoque → expedição em caixa térmica com sensor → transporte → recebimento. Stack da Parte 1: Java 21 + Spring Boot, PostgreSQL, Docker e GitHub Actions. Apenas dados sintéticos.
@@ -52,6 +52,8 @@ O coração do Rota Vital é atender a requisição com a bolsa certa, dentro da
 | **Entrega** | Requisição | Confirmação do hospital de que recebeu o pedido; encerra a requisição. |
 | **Entrega** | Transporte | Chegada da caixa ao destino, com horário e última temperatura; encerra a viagem. |
 | Tipo sanguíneo | Estoque, Requisição | Grupo ABO + fator Rh (ex.: O−). |
+| Hemocomponente | Estoque, Requisição | O que a bolsa contém: concentrado de hemácias ou plasma fresco congelado (nesta fase). |
+| Compatibilidade | Requisição | Regra que diz se a bolsa serve ao receptor; depende do hemocomponente (ver I1). |
 | Validade | Estoque | Data-limite de uso; bolsa vencida não pode ser reservada. |
 | Reserva | Estoque | Bloqueio temporário de bolsas para uma requisição, com prazo de expiração. |
 | Requisição | Requisição | Pedido de um hospital com itens, prioridade e justificativa clínica. |
@@ -67,14 +69,14 @@ O coração do Rota Vital é atender a requisição com a bolsa certa, dentro da
 | Relação (upstream → downstream) | Tipo | Como funciona |
 | --- | --- | --- |
 | Estoque → Requisição | Cliente-fornecedor | Requisição pede reservas; Estoque mantém a API `reservar` e o evento `BolsasReservadas`. |
-| Requisição → Expedição | Cliente-fornecedor | Expedição começa ao receber `RequisicaoAtendida`. |
+| Requisição → Expedição | Cliente-fornecedor | Expedição atende ao comando `MontarRemessa` e responde `RemessaMontada` ou `RemessaFalhou`. |
 | Estoque → Expedição | Linguagem publicada | Código ISBT 128 da bolsa como identificador comum. |
-| Expedição → Transporte | Cliente-fornecedor | Transporte abre a viagem a partir de `RemessaDespachada`. |
+| Expedição → Transporte | Cliente-fornecedor | Transporte usa a remessa definida pela Expedição (guia, caixa, sensor); quem manda abrir a viagem é a Requisição (D.3). |
 | Sensor → Transporte | Camada anticorrupção | Adaptador traduz o payload do fabricante (°F) para `LeituraTelemetria` (°C). |
 | Rede → Requisição e Transporte | Serviço aberto | API de consulta de unidades e endereços. |
 | Identidade, Notificações | Conformista | O Rota Vital adota o modelo do provedor sem traduzir. |
 
-**Eventos de domínio (opcional):** `RequisicaoRegistrada` e `RequisicaoAtendida` (Requisição), `BolsasReservadas` e `BolsaVencida` (Estoque), `RemessaDespachada` (Expedição), `TemperaturaForaDaFaixa` e `EntregaConcluida` (Transporte); cada um é consumido pelo contexto seguinte do fluxo.
+**Eventos de domínio (opcional):** `RequisicaoRegistrada` e `RequisicaoAtendida` (Requisição), `BolsasReservadas` e `BolsaVencida` (Estoque), `RemessaMontada` e `RemessaFalhou` (Expedição), `ViagemIniciada`, `TemperaturaForaDaFaixa` e `EntregaConcluida` (Transporte). Na saga (D.3) eles são respostas ao orquestrador: só a Requisição decide o passo seguinte; painéis e notificações apenas os observam.
 
 ## B. Modelo tático do contexto Requisição (core)
 
@@ -85,13 +87,13 @@ O agregado escolhido é a **Requisição**: nela o sistema decide se um pedido p
 | Elemento | Tipo | Conteúdo |
 | --- | --- | --- |
 | `Requisicao` | Raiz | id, solicitante, prioridade, justificativa, status. Métodos `registrar`, `alocar`, `marcarAtendida`, `cancelar`, `confirmarEntrega`. Única porta de entrada do agregado. |
-| `ItemRequisicao` | Entidade (1..\* por requisição) | Hemocomponente, tipo sanguíneo do receptor e quantidade; pode ser atendido parcialmente. |
-| `AlocacaoBolsa` | Entidade (0..\* por item) | Código, tipo e validade da bolsa reservada; refere o Estoque só pelo `CodigoBolsa`. |
-| `TipoSanguineo`, `Prioridade`, `Validade`, `Quantidade`, `JustificativaClinica` | Objetos de valor | Imutáveis e autovalidados; `TipoSanguineo.podeDoarPara()` e `Validade.estaValidaEm()`. |
+| `ItemRequisicao` | Entidade (1..\* por requisição) | Hemocomponente pedido, tipo sanguíneo do receptor e quantidade; pode ser atendido parcialmente. |
+| `AlocacaoBolsa` | Entidade (0..\* por item) | Código, hemocomponente, tipo e validade da bolsa reservada; refere o Estoque só pelo `CodigoBolsa`. |
+| `Hemocomponente`, `TipoSanguineo`, `Prioridade`, `Validade`, `Quantidade`, `JustificativaClinica` | Objetos de valor | Imutáveis e autovalidados; `Hemocomponente.compativel(doador, receptor)` e `Validade.estaValidaEm()`. |
 
 **Invariantes que a raiz protege**
 
-1. **I1 — Compatibilidade:** só aceita bolsa cujo tipo seja compatível com o tipo do receptor do item.
+1. **I1 — Compatibilidade:** a bolsa precisa ser do hemocomponente do item e compatível com o receptor **pela regra desse hemocomponente**, que fica em `Hemocomponente.compativel(doador, receptor)`. *Hemácias:* os antígenos ABO da bolsa precisam existir no receptor, e receptor Rh− só recebe Rh− (O− serve a todos). *Plasma:* a regra se inverte, porque o plasma leva os anticorpos; os antígenos do receptor precisam existir na bolsa (plasma AB serve a todos, plasma O só a receptor O) e o Rh não conta. Plaquetas e crioprecipitado ficam fora até a regra ser validada pelo responsável técnico do hemocentro.
 2. **I2 — Validade na entrega:** a bolsa precisa estar válida no horário previsto de entrega (agora + prazo da prioridade).
 3. **I3 — Quantidade:** um item nunca recebe mais bolsas do que pediu; a requisição tem ao menos um item.
 4. **I4 — Emergência:** requisição de emergência exige justificativa clínica.
@@ -106,7 +108,8 @@ O agregado escolhido é a **Requisição**: nela o sistema decide se um pedido p
 1. Item para receptor A+ aceita bolsa O− válida e passa a ter 1 bolsa alocada.
 2. Item para receptor O− recusa bolsa A+ com "Tipo sanguíneo incompatível".
 3. Em urgência (prazo de 4 h), bolsa que vence em 2 h é recusada com "Bolsa vence antes da entrega prevista".
-4. Uma recusa não altera o status da requisição nem as alocações existentes.
+4. Item de plasma para receptor A+ aceita plasma AB− e recusa plasma O− com "Tipo sanguíneo incompatível" (a mesma bolsa O− seria aceita em hemácias).
+5. Uma recusa não altera o status da requisição nem as alocações existentes.
 
 ### B.3 Cenário Gherkin (executado na Parte 3)
 
@@ -117,27 +120,29 @@ Funcionalidade: Alocar bolsas a uma requisição
   Contexto:
     Dado que agora são "2026-11-24 19:00"
     E existe a requisição "REQ-001" de prioridade "URGENCIA"
-    E a requisição tem o item "ITEM-1" para receptor "A+" com quantidade 2
+    E a requisição tem o item "ITEM-1" de "CONCENTRADO_HEMACIAS" para receptor "A+" com quantidade 2
+    E a requisição tem o item "ITEM-2" de "PLASMA_FRESCO_CONGELADO" para receptor "A+" com quantidade 2
 
-  Cenário: Alocar bolsa compatível e válida
-    Quando a atendente alocar a bolsa "B-100" do tipo "O-" com validade "2026-12-10 00:00" ao item "ITEM-1"
-    Então a alocação é aceita
-    E o item "ITEM-1" tem 1 bolsa alocada
-
-  Esquema do Cenário: Recusar bolsa que viola uma invariante
-    Quando a atendente alocar a bolsa "<bolsa>" do tipo "<tipo>" com validade "<validade>" ao item "ITEM-1"
-    Então a alocação é recusada com a mensagem "<mensagem>"
-    E a requisição "REQ-001" continua com status "EM_ATENDIMENTO"
+  Esquema do Cenário: A compatibilidade depende do hemocomponente
+    Quando a atendente alocar a bolsa "<bolsa>" de "<hemocomponente>" do tipo "<tipo>" com validade "2026-12-10 00:00" ao item "<item>"
+    Então a alocação é <resultado>
 
     Exemplos:
-      | bolsa | tipo | validade         | mensagem                              |
-      | B-200 | B+   | 2026-12-10 00:00 | Tipo sanguíneo incompatível           |
-      | B-300 | O-   | 2026-11-24 21:00 | Bolsa vence antes da entrega prevista |
+      | item   | bolsa | hemocomponente          | tipo | resultado                                            |
+      | ITEM-1 | B-100 | CONCENTRADO_HEMACIAS    | O-   | aceita                                               |
+      | ITEM-1 | B-200 | CONCENTRADO_HEMACIAS    | B+   | recusada com a mensagem "Tipo sanguíneo incompatível" |
+      | ITEM-2 | P-100 | PLASMA_FRESCO_CONGELADO | AB-  | aceita                                               |
+      | ITEM-2 | P-200 | PLASMA_FRESCO_CONGELADO | O-   | recusada com a mensagem "Tipo sanguíneo incompatível" |
+
+  Cenário: Recusar bolsa que vence antes da entrega prevista
+    Quando a atendente alocar a bolsa "B-300" de "CONCENTRADO_HEMACIAS" do tipo "O-" com validade "2026-11-24 21:00" ao item "ITEM-1"
+    Então a alocação é recusada com a mensagem "Bolsa vence antes da entrega prevista"
+    E a requisição "REQ-001" continua com status "EM_ATENDIMENTO"
 ```
 
 ## C. Arquitetura em três camadas
 
-Cada bounded context é um módulo com as mesmas três camadas; as dependências apontam para baixo e o domínio não importa Spring, JPA nem HTTP.
+Cada bounded context é um módulo com as mesmas três camadas; todas as dependências apontam para o domínio, que não importa Spring, JPA nem HTTP.
 
 ### C.1 O que fica em cada camada
 
@@ -145,16 +150,16 @@ Cada bounded context é um módulo com as mesmas três camadas; as dependências
 | --- | --- | --- |
 | **Apresentação** | Controllers REST, DTOs, validação de formato, telas web e app do motorista | `RequisicaoController`, `AlocarBolsaRequest` |
 | **Negócio · aplicação** | Casos de uso: orquestram o domínio, abrem a transação, publicam eventos | `RegistrarRequisicao`, `AlocarBolsa` |
-| **Negócio · domínio** | Agregados, entidades, objetos de valor, eventos e interfaces de repositório | `Requisicao`, `TipoSanguineo`, `RequisicaoRepository` |
+| **Negócio · domínio** | Agregados, entidades, objetos de valor, eventos e interfaces (portas) de repositório e integração | `Requisicao`, `Hemocomponente`, `RequisicaoRepository`, `EstoqueGateway` |
 | **Dados** | Repositórios JPA, banco, integrações (sensor, notificações) e fila | `RequisicaoRepositoryJpa`, `SensorTelemetriaAdapter` |
 
 ### C.2 Regra de dependência
 
 ![Regra de dependência entre as camadas](img/regra-de-dependencia.png)
 
-- Cada camada só usa a de baixo: apresentação → aplicação → domínio e dados.
-- O domínio é Java puro: a interface `RequisicaoRepository` fica no domínio e a implementação JPA fica em dados (inversão de dependência).
-- Um contexto só fala com outro pela camada de aplicação ou por evento. Testes **ArchUnit** na esteira falham se `..dominio..` importar Spring, JPA ou `..apresentacao..`.
+- Apresentação → aplicação → domínio. A aplicação **não** importa dados: usa as interfaces do domínio (`RequisicaoRepository`, `EstoqueGateway`).
+- Dados → domínio: `RequisicaoRepositoryJpa` e `EstoqueClient` implementam essas interfaces (inversão de dependência). O Spring injeta a implementação na aplicação ao subir; nenhuma classe de negócio cita uma classe de dados.
+- Um contexto só fala com outro pela camada de aplicação ou por evento. Testes **ArchUnit** na esteira falham se `..dominio..` importar Spring, JPA, `..aplicacao..`, `..apresentacao..` ou `..dados..`, e se `..aplicacao..` importar `..dados..`.
 
 ### C.3 Estrutura de pacotes
 
@@ -170,8 +175,9 @@ br.cesar.rotavital
 │   ├── apresentacao   (RequisicaoController)
 │   ├── negocio
 │   │   ├── aplicacao  (RegistrarRequisicao, AlocarBolsa, MarcarRequisicaoAtendida)
-│   │   └── dominio    (Requisicao, ItemRequisicao, AlocacaoBolsa, Prioridade)
-│   └── dados          (RequisicaoRepositoryJpa, EstoqueClient)
+│   │   └── dominio    (Requisicao, ItemRequisicao, AlocacaoBolsa, Hemocomponente,
+│   │                   RequisicaoRepository, EstoqueGateway)
+│   └── dados          (RequisicaoRepositoryJpa, EstoqueClient implementa EstoqueGateway)
 ├── expedicao          apresentacao · negocio/aplicacao (MontarRemessa, EmitirGuia)
 │                      · negocio/dominio (Remessa, CaixaTermica, GuiaRemessa) · dados
 ├── transporte         apresentacao · negocio/aplicacao (IniciarViagem, RegistrarLeitura)
@@ -192,7 +198,7 @@ Camada é organização do código; tier é onde o processo roda. As três camad
 
 ## D. Projeção com microsserviços
 
-Com microsserviços seriam quatro serviços, cada um com seu banco, conversando por eventos; a decisão para agora é manter o monolito modular e extrair primeiro o Transporte (ADR 0001).
+Com microsserviços seriam quatro serviços, cada um com seu banco, conversando por comandos e eventos; a decisão é manter o monolito modular e extrair primeiro o Transporte quando a telemetria passar de \~10 leituras/s, o que acontece no cenário alto (ADR 0001).
 
 ### D.1 Quais contextos viram serviços
 
@@ -215,15 +221,17 @@ Identidade e Notificações não viram serviços nossos: são produtos contratad
 
 ### D.3 Saga "Atender requisição" (orquestrada pela Requisição)
 
-| Passo | Serviço | Ação local | Compensação se um passo seguinte falhar |
-| --- | --- | --- | --- |
-| 1 | Requisição | Registra a requisição (EM\_ATENDIMENTO) | Cancelar e notificar o hospital |
-| 2 | Estoque | Reserva as bolsas (expira em 30 min) | Liberar a reserva |
-| 3 | Requisição | Aloca as bolsas e marca ATENDIDA | Desalocar e voltar a EM\_ATENDIMENTO |
-| 4 | Expedição | Monta a remessa e emite a guia | Cancelar a guia e devolver as bolsas |
-| 5 | Transporte | Abre a viagem e despacha | Sem volta (*pivot*): falha vira requisição de reposição |
+**Estilo: orquestração pura.** A Requisição envia um comando a cada serviço e cada serviço responde só a ela; nenhum participante aciona o seguinte. Escolhemos orquestrar porque a saga tem 5 passos, compensação condicional e um ponto sem volta: o estado inteiro fica em um lugar (`Requisicao`), fácil de auditar e de explicar ao hemocentro. O custo é acoplar o orquestrador aos comandos dos outros serviços.
 
-**Exemplo de falha:** na separação, a Expedição acha a bolsa B-100 com a embalagem rompida e publica `RemessaFalhou`. A Requisição compensa os passos 3 e 2 (desaloca, pede o descarte de B-100 e libera as demais) e reinicia no passo 2; sem estoque, notifica o hospital.
+| Passo | Comando da Requisição → serviço | Resposta → Requisição | Compensação se um passo seguinte falhar |
+| --- | --- | --- | --- |
+| 1 | (local) registrar, EM\_ATENDIMENTO | — | Cancelar e notificar o hospital |
+| 2 | `ReservarBolsas` → Estoque (expira em 30 min) | `BolsasReservadas` | `LiberarReserva` |
+| 3 | (local) alocar e marcar ATENDIDA | — | Desalocar e voltar a EM\_ATENDIMENTO |
+| 4 | `MontarRemessa` → Expedição | `RemessaMontada` ou `RemessaFalhou` | `CancelarRemessa` (cancela a guia) |
+| 5 | `AbrirViagem` → Transporte | `ViagemIniciada`, depois `EntregaConcluida` | Sem volta (*pivô*): falha vira requisição de reposição |
+
+**Exemplo de falha:** na separação, a Expedição acha a bolsa B-100 com a embalagem rompida e responde `RemessaFalhou`. A Requisição compensa os passos 3 e 2 (desaloca, manda o Estoque descartar B-100 e liberar as demais) e repete a partir do passo 2; sem estoque, notifica o hospital.
 
 ![Saga Atender requisição com compensação](img/saga-atender-requisicao.png)
 
@@ -237,7 +245,7 @@ Identidade e Notificações não viram serviços nossos: são produtos contratad
 | Custo (moderado) | Menor: 2 containers + 1 banco | Maior: 4+ serviços, broker, bancos | Baixo com pouca carga; soma gateway e RDS Proxy |
 | Operação | Baixa: 1 esteira, 1 log | Alta: rastreamento distribuído, várias esteiras | Média: muitos gatilhos, depuração difícil |
 
-**Serverless (opcional):** viram funções a emissão da guia em PDF ao receber `RequisicaoAtendida`, o processamento de cada leitura de telemetria e a rotina diária de bolsas vencidas. Não viram o agregado Requisição e as reservas (precisam de transação e conexões ao banco; cold start atrasaria uma emergência) nem relatórios longos (limite de 15 min).
+**Serverless (opcional):** viram funções a emissão da guia em PDF ao receber `RemessaMontada`, o processamento de cada leitura de telemetria e a rotina diária de bolsas vencidas. Não viram o agregado Requisição e as reservas (precisam de transação e conexões ao banco; cold start atrasaria uma emergência) nem relatórios longos (limite de 15 min).
 
 ### D.5 ADRs
 
@@ -246,7 +254,7 @@ Arquivos em `docs/arquitetura/adr/0001-decomposicao.md` e `0002-eventos-com-outb
 **ADR 0001: Decomposição do Rota Vital** · Status: aceito
 
 - **Contexto:** squad de 7 pessoas, um repositório e uma esteira; pico de 3 a 120 req/s e só a telemetria com volume alto; fronteiras ainda mudando.
-- **Decisão:** monolito modular com cinco módulos em três camadas, ligados por casos de uso e eventos. Transporte é o primeiro a ser extraído, acima de \~50 leituras/s.
+- **Decisão:** monolito modular com cinco módulos em três camadas, ligados por casos de uso e eventos. Transporte é o primeiro a ser extraído quando a telemetria passar de \~10 leituras/s (≈300 caixas em trânsito): o moderado tem 2,7/s e fica no monolito; o alto tem 20/s e extrai. O limite fica entre os dois com folga de 4× sobre o moderado e será medido no teste de carga da Parte 3.
 - **Consequências:** melhora deploy, custo e transação ACID entre reserva e alocação; piora porque escala em bloco e exige ArchUnit para manter as fronteiras. Descartada: microsserviços já, caros demais para a carga atual.
 
 **ADR 0002: Eventos entre contextos com outbox transacional** · Status: aceito
@@ -269,7 +277,8 @@ O custo mensal vai de US$ 47 (baixo) a US$ 473 (alto), mas o custo por pedido ca
 | Caixas em trânsito no pico (1 leitura a cada 30 s) | 10 | 80 | 600 |
 | **Pico de requisições por segundo (λ)** | **3 req/s** | **20 req/s** | **120 req/s** |
 | Tempo de resposta W / tempo no banco W\_db | 0,20 s / 0,05 s | 0,20 s / 0,05 s | 0,25 s / 0,05 s |
-| **Disponibilidade desejada** | 99,0% (7,3 h fora/mês) | 99,9% (44 min/mês) | 99,95% (22 min/mês) |
+| **Disponibilidade desejada** | 99,0% (7,3 h fora/mês) | 99,9% (44 min/mês) | 99,9% (44 min/mês) |
+| Leituras de telemetria no pico | 0,3/s | 2,7/s | 20/s (acima de 10/s: Transporte extraído) |
 
 **Como o pico foi estimado (moderado):** 1.500 pedidos × 40 chamadas HTTP = 60.000 chamadas em 12 h = 1,4 req/s; fator de pico 10 = 14 req/s; + 80 caixas ÷ 30 s = 2,7 leituras/s; arredondado para 20 req/s. **Capacidade adotada:** uma instância de 1 vCPU atende 7 requisições simultâneas (70% de 10), a confirmar no teste de carga da Parte 3.
 
@@ -284,6 +293,16 @@ O custo mensal vai de US$ 47 (baixo) a US$ 473 (alto), mas o custo por pedido ca
 | Alto | 120 × 0,25 = **30** | 5 | 3 a 6 com autoscaling (5 + 1 no pico) + 2 do Transporte | 6 | até 70 (6 × 10 + 2 × 5) |
 
 O gargalo não é o banco (L\_db ≤ 6), e sim a disponibilidade: no moderado a carga cabe em 1 instância, mas 99,9% exige uma segunda em outra zona.
+
+**Disponibilidade composta (moderado e alto).** O caminho de um pedido passa em série por load balancer, tarefas Fargate e banco; se qualquer um cair, o pedido falha, então as disponibilidades se multiplicam. SLAs mensais publicados pela AWS, consultados em 13/11/2026: [ALB Multi-AZ 99,99%](https://aws.amazon.com/elasticloadbalancing/sla/), [ECS/Fargate em 2+ zonas 99,99%](https://aws.amazon.com/ecs/sla/) e RDS Multi-AZ 99,95% ([RDS SLA](https://aws.amazon.com/rds/sla/)).
+
+| Conta | Resultado | Fora do ar por mês (43.800 min) |
+| --- | --- | --- |
+| 0,9999 × 0,9999 × 0,9995 | **99,93%** | 0,0007 × 43.800 ≈ **31 min** |
+| Meta do moderado: 99,9% | Fecha (31 ≤ 44 min) | |
+| Meta original do alto: 99,95% | **Não fecha** (31 > 22 min) | |
+
+Por isso o alto passou a mirar **99,9%**. Para garantir 99,95% seria preciso trocar o RDS por Aurora PostgreSQL Multi-AZ ([SLA 99,99%](https://aws.amazon.com/rds/aurora/sla/)): 0,9999³ = 99,97% (≈13 min); fica como evolução, sem preço no orçamento. O SQS não entra na conta: com o outbox (ADR 0002), se a fila cair os eventos esperam na tabela e o pedido continua sendo atendido.
 
 ### E.3 Diagramas e o que muda
 
@@ -356,8 +375,11 @@ Conforme o PO-CESAR-021 (categoria Condicionado). Apenas dados sintéticos do Ro
 
 | Quem / ferramenta | O que fez | Como foi validado |
 | --- | --- | --- |
-| Claude (Anthropic) | Estrutura e redação do documento, subdomínios, glossário, mapa de contextos, agregado e Gherkin, arquitetura em camadas, projeção com microsserviços, ADRs, diagramas Mermaid, contas da Lei de Little, fórmulas da planilha e slides | Conteúdo revisado pelo squad antes da entrega; contas conferidas na planilha `orcamento.xlsx` |
-| **Squad (manual, sem IA)** | Conferência de todos os preços: montagem das duas estimativas na **AWS Pricing Calculator** (moderado e alto, us-east-1) serviço a serviço e consulta de **render.com/pricing**; levantamento dos valores lançados na planilha | Preço unitário de cada item comparado com o da calculadora oficial em 12/11/2026; a divergência encontrada no RDS db.t4g.small (0,064 → 0,065 USD/h) foi corrigida; links públicos das estimativas na seção E.4 |
+| Claude (Anthropic) | Estrutura e redação do documento, subdomínios, glossário, mapa de contextos, agregado e Gherkin, arquitetura em camadas, projeção com microsserviços, ADRs, diagramas Mermaid, contas da Lei de Little e da disponibilidade composta, consulta dos SLAs, fórmulas da planilha e slides | Cada parte foi conferida por quem a apresenta, conforme as linhas abaixo |
+| Pablo e João (domínio) | Conferiram a seção A e o agregado da seção B | Subdomínios e contextos comparados com o fluxo real do hemocentro (requisição → reserva → expedição → transporte → recebimento); glossário checado termo a termo nos dois contextos; regra de compatibilidade de hemácias e de plasma (I1) conferida em material de hemoterapia; os exemplos do Gherkin testados à mão contra I1 e I2 |
+| Lucas e Saulo (arquitetura) | Conferiram as seções C e D e os ADRs | Diagrama de dependências comparado com a árvore de pacotes (nenhuma seta de aplicação para dados); saga percorrida passo a passo, com cada resposta voltando ao orquestrador; limite de extração do ADR 0001 comparado com as leituras/s dos cenários |
+| Thiago e Eloi (contas) | Conferiram a seção E | Lei de Little, custo por pedido e disponibilidade composta refeitos na calculadora e na planilha `orcamento.xlsx`; SLAs conferidos nas páginas oficiais da AWS |
+| Ewerton (PO) | Revisão final | Coerência entre documento, diagramas, README e slides antes da entrega |
 | Cucumber-JVM | Execução do cenário Gherkin da seção B | Na Parte 3 |
 
 Nenhum preço sugerido por IA foi usado: todos os valores do orçamento vêm das fontes oficiais consultadas pelo squad.
