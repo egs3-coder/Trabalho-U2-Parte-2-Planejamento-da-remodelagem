@@ -1,7 +1,17 @@
 # Pendências até a entrega (24/11, 19h15)
 
 - [ ] **Pré-entrega (17/11, até 19h15):** enviar [`entregas/Hemotrack-Pre-entrega-Secoes-A-e-C.pdf`](entregas/Hemotrack-Pre-entrega-Secoes-A-e-C.pdf) no Classroom.
-- [ ] **Anotar a devolutiva** do professor na aula e repassar para ajustar o documento.
+- [x] **Devolutiva do professor (13/11) aplicada:**
+    - [x] I1 considera o hemocomponente (plasma inverte a regra); Gherkin com exemplos de plasma
+    - [x] ADR 0001: gatilho de extração do Transporte ajustado para ~10 leituras/s (alto tem 20/s)
+    - [x] Disponibilidade composta pelos SLAs (99,93%): alto passou de 99,95% para 99,9%
+    - [x] Saga: orquestração pura (Expedição responde à Requisição, que comanda o Transporte)
+    - [x] Diagrama de dependência sem seta aplicação → dados
+    - [x] Legendas do README com US$ 152,07 e US$ 472,88
+    - [x] Uso de IA: quem conferiu cada parte
+- [ ] **Cada responsável confirma a validação registrada em "Uso de IA"** (Pablo e João: domínio e regra ABO de plasma; Lucas e Saulo: camadas, saga e ADRs; Thiago e Eloi: contas e SLAs; Ewerton: revisão final). Se algo não foi feito, fazer ou corrigir o texto antes de 24/11.
+- [ ] **Parte 3:** levar `docs/arquitetura/` (mesma estrutura) e `features/` para o repositório do código, junto da esteira da Parte 1.
+- [ ] **Ensaio cruzado:** cada integrante explica domínio, contas e saga (o professor vai sortear quem fala).
 - [x] **Conferir os preços** (feito em 12/11/2026) na fonte oficial (o professor não aceita preço sugerido por IA):
     - [x] Render (cenário baixo): render.com/pricing
     - [x] AWS (moderado e alto): calculator.aws, região US East (N. Virginia), com Fargate ARM, ALB, RDS PostgreSQL Multi-AZ (db.t4g.small e db.t4g.large), gp3, IPv4, SQS, CloudWatch Logs e S3

@@ -29,7 +29,7 @@ Infraestrutura de Software · ADS · CESAR School · 2026.2
 
 ### Entrega final e apresentação · 24/11
 
-📄 **Arquivos para o Classroom:** [`Hemotrack-Rota-Vital-Parte-2.pdf`](docs/entregas/Hemotrack-Rota-Vital-Parte-2.pdf) (10 páginas, limite de 12) · [`Hemotrack-Rota-Vital-Parte-2-Slides.pdf`](docs/entregas/Hemotrack-Rota-Vital-Parte-2-Slides.pdf) (16 slides)
+📄 **Arquivos para o Classroom:** [`Hemotrack-Rota-Vital-Parte-2.pdf`](docs/entregas/Hemotrack-Rota-Vital-Parte-2.pdf) (11 páginas, limite de 12) · [`Hemotrack-Rota-Vital-Parte-2-Slides.pdf`](docs/entregas/Hemotrack-Rota-Vital-Parte-2-Slides.pdf) (16 slides)
 
 | Seção | Conteúdo | Arquivos de apoio |
 | --- | --- | --- |
@@ -39,6 +39,8 @@ Infraestrutura de Software · ADS · CESAR School · 2026.2
 | [D. Projeção com microsserviços](docs/arquitetura/documento.md#d-projeção-com-microsserviços) | [Serviços](docs/arquitetura/documento.md#d1-quais-contextos-viram-serviços) · [Comunicação e dados](docs/arquitetura/documento.md#d2-comunicação-e-dados) · [Saga](docs/arquitetura/documento.md#d3-saga-atender-requisição-orquestrada-pela-requisição) · [Comparação](docs/arquitetura/documento.md#d4-comparação-para-o-rota-vital) · [ADRs](docs/arquitetura/documento.md#d5-adrs) | [`comunicacao.mmd`](docs/arquitetura/microsservicos/comunicacao.mmd) · [`saga-atender-requisicao.mmd`](docs/arquitetura/microsservicos/saga-atender-requisicao.mmd) · [ADR 0001](docs/arquitetura/adr/0001-decomposicao.md) · [ADR 0002](docs/arquitetura/adr/0002-eventos-com-outbox.md) |
 | [E. Três cenários com orçamento](docs/arquitetura/documento.md#e-três-cenários-com-orçamento) | [Premissas de carga](docs/arquitetura/documento.md#e1-premissas-de-carga) · [Lei de Little](docs/arquitetura/documento.md#e2-lei-de-little) · [Diagramas](docs/arquitetura/documento.md#e3-diagramas-e-o-que-muda) · [Orçamento](docs/arquitetura/documento.md#e4-orçamento-por-cenário) | [`orcamento.xlsx`](docs/arquitetura/orcamento.xlsx) · [`baixo.mmd`](docs/arquitetura/cenarios/baixo.mmd) · [`moderado.mmd`](docs/arquitetura/cenarios/moderado.mmd) · [`alto.mmd`](docs/arquitetura/cenarios/alto.mmd) |
 | [Uso de IA](docs/arquitetura/documento.md#uso-de-ia) · [Referências](docs/arquitetura/documento.md#referências) | O que foi feito pela IA e pelo squad; fontes de preço | — |
+
+**Parte 3:** a pasta `docs/arquitetura/` vai, com a mesma estrutura, para o repositório do código junto da esteira da Parte 1 (ver [`PENDENCIAS.md`](docs/PENDENCIAS.md)).
 
 **Apresentação:** [`roteiro.md`](docs/apresentacao/roteiro.md) (divisão por integrante, contas e perguntas prováveis) · **Pendências:** [`PENDENCIAS.md`](docs/PENDENCIAS.md)
 
@@ -71,12 +73,14 @@ docs/
     ├── img/                              # PNG de cada diagrama
     └── orcamento.xlsx                    # Lei de Little e orçamento dos três cenários
 features/alocar_bolsa.feature             # cenário Gherkin (executado na Parte 3)
+docs/entregas/fonte/                      # scripts que geram os PDFs a partir do documento.md e dos slides revisados
 ```
 
 ## Resumo
 
 - **Bounded contexts:** Estoque, Requisição (core), Expedição, Transporte (core), Rede.
-- **Decisão:** monolito modular em três camadas; projeção para quatro microsserviços (ADR 0001).
+- **Decisão:** monolito modular em três camadas; projeção para quatro microsserviços; Transporte extraído acima de ~10 leituras/s, o que ocorre no cenário alto (ADR 0001).
+- **Disponibilidade:** ALB × Fargate × RDS Multi-AZ = 99,99% × 99,99% × 99,95% = 99,93% pelos SLAs publicados; atende 99,9% (moderado e alto).
 - **Cenários:** baixo US$ 47,00/mês (US$ 0,0104 por pedido) · moderado US$ 152,07/mês (US$ 0,0034) · alto US$ 472,88/mês (US$ 0,0013). Preços on-demand conferidos pelo squad em 12/11/2026 em [render.com/pricing](https://render.com/pricing) e na AWS Pricing Calculator ([moderado](https://calculator.aws/#/estimate?id=71d5f083738612902c899bf5a25a2fd44c668a7d) · [alto](https://calculator.aws/#/estimate?id=e9376074563bc3ece0ea5427d2302774428e035e)).
 
 ## Diagramas
@@ -119,7 +123,7 @@ flowchart LR
 
 ![B.1 · Agregado Requisição](docs/arquitetura/img/agregado-requisicao.png)
 
-A raiz `Requisicao` protege as invariantes de compatibilidade (I1) e validade (I2). Fonte: [`contexto/agregado-requisicao.mmd`](docs/arquitetura/contexto/agregado-requisicao.mmd)
+A raiz `Requisicao` protege as invariantes de compatibilidade (I1, que depende do hemocomponente: em plasma a regra se inverte) e validade (I2). Fonte: [`contexto/agregado-requisicao.mmd`](docs/arquitetura/contexto/agregado-requisicao.mmd)
 
 <details>
 <summary>Ver código Mermaid</summary>
@@ -149,14 +153,21 @@ classDiagram
   class AlocacaoBolsa {
     <<Entidade>>
     CodigoBolsa codigo
+    Hemocomponente hemocomponente
     TipoSanguineo tipoBolsa
     Validade validade
+  }
+  class Hemocomponente {
+    <<Objeto de valor>>
+    CONCENTRADO_HEMACIAS
+    PLASMA_FRESCO_CONGELADO
+    compativel(doador, receptor)
   }
   class TipoSanguineo {
     <<Objeto de valor>>
     GrupoABO grupo
     FatorRh rh
-    podeDoarPara(TipoSanguineo)
+    antigenos()
   }
   class Validade {
     <<Objeto de valor>>
@@ -165,7 +176,8 @@ classDiagram
   }
   Requisicao "1" *-- "1..*" ItemRequisicao
   ItemRequisicao "1" *-- "0..*" AlocacaoBolsa
-  ItemRequisicao ..> TipoSanguineo
+  ItemRequisicao ..> Hemocomponente
+  Hemocomponente ..> TipoSanguineo
   AlocacaoBolsa ..> Validade
 ```
 
@@ -175,7 +187,7 @@ classDiagram
 
 ![C.2 · Regra de dependência das camadas](docs/arquitetura/img/regra-de-dependencia.png)
 
-As dependências apontam para baixo; a camada de dados implementa as interfaces do domínio. Fonte: [`camadas/regra-de-dependencia.mmd`](docs/arquitetura/camadas/regra-de-dependencia.mmd)
+Todas as dependências apontam para o domínio: a aplicação usa as interfaces do domínio e nunca importa dados; a camada de dados implementa essas interfaces (inversão de dependência). Fonte: [`camadas/regra-de-dependencia.mmd`](docs/arquitetura/camadas/regra-de-dependencia.mmd)
 
 <details>
 <summary>Ver código Mermaid</summary>
@@ -183,9 +195,8 @@ As dependências apontam para baixo; a camada de dados implementa as interfaces 
 ```mermaid
 flowchart LR
   AP["Apresentação\ncontrollers REST · telas"] --> APL["Negócio · aplicação\ncasos de uso"]
-  APL --> DOM["Negócio · domínio\nagregados · VOs · interfaces de repositório"]
-  APL --> DAD["Dados\nJPA · adaptadores · fila"]
-  DAD -. "implementa interfaces do domínio" .-> DOM
+  APL -- "usa interfaces" --> DOM["Negócio · domínio\nagregados · VOs · interfaces\nRequisicaoRepository · EstoqueGateway"]
+  DAD["Dados\nJPA · adaptadores · fila"] -- "implementa interfaces" --> DOM
 ```
 
 </details>
@@ -223,7 +234,7 @@ flowchart LR
 
 ![D.3 · Saga "Atender requisição"](docs/arquitetura/img/saga-atender-requisicao.png)
 
-Saga orquestrada pela Requisição, com compensação quando a Expedição encontra uma bolsa danificada. Fonte: [`microsservicos/saga-atender-requisicao.mmd`](docs/arquitetura/microsservicos/saga-atender-requisicao.mmd)
+Saga orquestrada pela Requisição: cada serviço recebe um comando e responde só ao orquestrador; compensação quando a Expedição encontra uma bolsa danificada. Fonte: [`microsservicos/saga-atender-requisicao.mmd`](docs/arquitetura/microsservicos/saga-atender-requisicao.mmd)
 
 <details>
 <summary>Ver código Mermaid</summary>
@@ -237,15 +248,18 @@ sequenceDiagram
   R->>E: ReservarBolsas (comando)
   E-->>R: BolsasReservadas
   R->>R: alocar + marcarAtendida
-  R->>X: RequisicaoAtendida
-  X-->>R: RemessaFalhou (bolsa danificada na separação)
-  Note over R,E: Compensação
-  R->>E: LiberarReserva / DescartarBolsa (comando)
-  R->>R: voltar para EM_ATENDIMENTO
+  R->>X: MontarRemessa (comando)
+  X-->>R: RemessaFalhou (bolsa B-100 danificada)
+  Note over R,X: Compensação dos passos 3 e 2
+  R->>R: desalocar, voltar a EM_ATENDIMENTO
+  R->>E: DescartarBolsa B-100 + LiberarReserva (comandos)
   R->>E: ReservarBolsas (nova tentativa)
   E-->>R: BolsasReservadas
-  R->>X: RequisicaoAtendida
-  X-->>T: RemessaDespachada
+  R->>R: alocar + marcarAtendida
+  R->>X: MontarRemessa (comando)
+  X-->>R: RemessaMontada (guia + caixa)
+  R->>T: AbrirViagem (comando · ponto sem volta)
+  T-->>R: ViagemIniciada
   T-->>R: EntregaConcluida
 ```
 
@@ -273,7 +287,7 @@ flowchart LR
 
 ![E.3 · Cenário moderado (AWS, 2 zonas)](docs/arquitetura/img/moderado.png)
 
-2 tarefas Fargate em zonas diferentes + RDS Multi-AZ · US$ 148,40/mês · 99,9%. Fonte: [`cenarios/moderado.mmd`](docs/arquitetura/cenarios/moderado.mmd)
+2 tarefas Fargate em zonas diferentes + RDS Multi-AZ · US$ 152,07/mês · 99,9% (SLA composto 99,93%). Fonte: [`cenarios/moderado.mmd`](docs/arquitetura/cenarios/moderado.mmd)
 
 <details>
 <summary>Ver código Mermaid</summary>
@@ -302,7 +316,7 @@ flowchart LR
 
 ![E.3 · Cenário alto (AWS, autoscaling)](docs/arquitetura/img/alto.png)
 
-Monolito com 3–6 tarefas + transporte-service extraído · US$ 469,78/mês · 99,95%. Fonte: [`cenarios/alto.mmd`](docs/arquitetura/cenarios/alto.mmd)
+Monolito com 3–6 tarefas + transporte-service extraído · US$ 472,88/mês · 99,9% (SLA composto 99,93%; 99,95% não fecha, ver E.2). Fonte: [`cenarios/alto.mmd`](docs/arquitetura/cenarios/alto.mmd)
 
 <details>
 <summary>Ver código Mermaid</summary>

@@ -1,0 +1,124 @@
+<!doctype html><html lang="pt-BR"><head><meta charset="utf-8">
+<!-- Slides 6, 7, 9, 10 e 11 refeitos após a devolutiva de 13/11. build_slides.py troca essas páginas no PDF. -->
+<style>
+@page { size: 1920px 1080px; margin: 0; }
+* { box-sizing: border-box; }
+body { margin: 0; font-family: Inter, sans-serif; color: #1a1f2c; }
+section { width: 1920px; height: 1080px; padding: 112px 128px 0; position: relative; break-after: page; overflow: hidden; background: #f6f2ed; }
+section.d { background: #ede6dd; }
+.k { font-weight: 600; font-size: 24px; letter-spacing: 3.5px; text-transform: uppercase; color: #b3263a; margin-top: 14px; }
+.d .k { color: #2f5d8a; }
+h1 { font-family: "Liberation Sans", Arial, sans-serif; font-weight: bold; font-size: 64px; margin: 12px 0 44px; letter-spacing: -0.5px; }
+table { width: 100%; border-collapse: collapse; font-size: 26px; }
+th { background: #1a1f2c; color: #fff; font-weight: 600; padding: 2px 4px; border: 2px solid #ede6dd; }
+td { background: #fffdf9; padding: 2px 4px; border: 2px solid #ede6dd; }
+tr.hl td { background: #f1e6e2; }
+.card { background: #fff; border: 1px solid #e3d6d6; border-radius: 22px; padding: 20px; }
+.alerta { background: #b3263a; color: #fff; border-radius: 22px; padding: 30px 44px 30px 112px; font-size: 26px; line-height: 1.55; position: relative; margin-top: 42px; }
+.alerta:before { content: ""; position: absolute; left: 44px; top: 50%; width: 42px; height: 54px; margin-top: -27px; border: 5px solid #fff; border-radius: 50%; }
+.nota { font-size: 26px; line-height: 1.55; color: #4a4f5c; margin-top: 40px; }
+.nota b { color: #1a1f2c; font-weight: 600; }
+.mono { font-family: "Liberation Mono", monospace; }
+code { font-family: Inter; color: #1a1f2c; }
+.escuro { background: #1a1f2c; color: #e9e9ee; border-radius: 22px; padding: 26px 32px; font-size: 24px; line-height: 1.5; }
+.escuro .t { color: #f08a96; font-weight: 600; margin-bottom: 8px; font-size: 25px; }
+.escuro .mono { font-size: 23px; }
+ol { font-size: 28px; line-height: 1.45; padding-left: 40px; margin: 0 0 26px; }
+li b { font-weight: 600; }
+h2 { font-family: "Liberation Sans", Arial; font-size: 36px; margin: 0 0 22px; }
+.adrs { display: flex; gap: 44px; }
+.adr { flex: 1; background: #fffdf9; border: 1px solid #e3d6d6; border-radius: 22px; padding: 38px 44px; font-size: 22px; line-height: 1.55; }
+.adr .tag { color: #2f5d8a; font-weight: 600; font-size: 19px; }
+.adr h3 { font-size: 30px; font-weight: 600; margin: 10px 0 20px; }
+.adr p { margin: 0 0 18px; }
+.adr b { font-weight: 600; }
+.adr .novo { background: #f1e6e2; border-radius: 8px; padding: 2px 6px; }
+</style></head><body>
+
+<!-- 6 -->
+<section>
+  <div class="k">B · Modelo tático</div>
+  <h1>O agregado Requisição barra bolsa errada</h1>
+  <div style="display:flex; gap:48px">
+    <div class="card" style="width:372px; height:632px; display:flex; align-items:center; justify-content:center"><img src="../../arquitetura/img/agregado-requisicao.png" style="max-height:600px; max-width:340px"></div>
+    <div style="flex:1">
+      <h2>Invariantes que a raiz protege</h2>
+      <ol>
+        <li><b>I1 Compatibilidade depende do hemocomponente.</b> Hemácias: O− serve a todos. Plasma: a regra se inverte, AB serve a todos e o Rh não conta</li>
+        <li><b>I2 Validade:</b> bolsa válida no horário previsto de entrega</li>
+        <li><b>I3 Quantidade:</b> nunca mais bolsas do que o pedido</li>
+        <li><b>I4 Emergência:</b> exige justificativa clínica</li>
+        <li><b>I5 Ciclo de vida:</b> só fica ATENDIDA com todos os itens completos</li>
+      </ol>
+      <div class="escuro">
+        <div class="t">Carla, atendente do plantão noturno · receptor A+ · I1 e I2</div>
+        <div class="mono">Hemácias “B-100” tipo “O-” → aceita<br>Plasma “P-200” tipo “O-” → recusada: “Tipo sanguíneo incompatível”<br>Plasma “P-100” tipo “AB-” → aceita</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 7 -->
+<section class="d">
+  <div class="k">C · Três camadas</div>
+  <h1>Todas as dependências apontam para o domínio</h1>
+  <div class="card" style="padding:22px 60px; text-align:center"><img src="../../arquitetura/img/regra-de-dependencia.png" style="height:300px"></div>
+  <table style="margin-top:36px">
+    <tr><th>Camada</th><th>Contém</th><th>Depende de</th></tr>
+    <tr><td><b>Apresentação</b></td><td>Controllers REST, DTOs, telas</td><td>Aplicação</td></tr>
+    <tr><td><b>Negócio</b></td><td>Casos de uso, agregados, interfaces (RequisicaoRepository, EstoqueGateway)</td><td>Ninguém de fora: domínio é Java puro</td></tr>
+    <tr><td><b>Dados</b></td><td>Repositórios JPA, EstoqueClient, fila</td><td>Domínio (implementa as interfaces)</td></tr>
+  </table>
+  <div class="nota">A aplicação nunca importa dados: o Spring injeta a implementação. <b>ArchUnit</b> na esteira barra domínio → Spring/JPA/dados e aplicação → dados.</div>
+</section>
+
+<!-- 9 -->
+<section class="d">
+  <div class="k">D · Saga “Atender requisição”</div>
+  <h1>Orquestrada: todos respondem à Requisição</h1>
+  <table>
+    <tr><th style="width:70px">#</th><th>Comando da Requisição</th><th>Resposta à Requisição</th><th>Compensação</th></tr>
+    <tr><td>1</td><td>(local) registra o pedido</td><td>—</td><td>Cancela e avisa o hospital</td></tr>
+    <tr><td>2</td><td>ReservarBolsas → Estoque</td><td>BolsasReservadas</td><td>LiberarReserva</td></tr>
+    <tr><td>3</td><td>(local) aloca e marca ATENDIDA</td><td>—</td><td>Desaloca, volta a EM_ATENDIMENTO</td></tr>
+    <tr><td>4</td><td>MontarRemessa → Expedição</td><td>RemessaMontada / RemessaFalhou</td><td>CancelarRemessa</td></tr>
+    <tr class="hl"><td>5</td><td>AbrirViagem → Transporte</td><td>ViagemIniciada, EntregaConcluida</td><td>Sem volta: vira reposição</td></tr>
+  </table>
+  <div class="nota" style="margin-top:28px"><b>Por que orquestrar:</b> 5 passos, compensação condicional e um ponto sem volta; o estado fica num lugar só. A Expedição não fala com o Transporte.</div>
+  <div class="alerta" style="margin-top:30px"><b>Falha:</b> a Expedição acha a bolsa B-100 rompida e responde RemessaFalhou. A Requisição desfaz os passos 3 e 2, manda descartar a B-100 e reserva de novo.</div>
+</section>
+
+<!-- 10 -->
+<section class="d">
+  <div class="k">D · Decisões registradas</div>
+  <h1>Monolito modular agora; Transporte sai primeiro</h1>
+  <div class="adrs">
+    <div class="adr"><div class="tag">ADR 0001 · aceito</div><h3>Decomposição</h3>
+      <p><b>Contexto:</b> 7 pessoas, 1 esteira, pico de 3 a 120 req/s.</p>
+      <p><b>Decisão:</b> 5 módulos em 3 camadas; Transporte extraído <span class="novo">acima de ~10 leituras/s</span>: moderado 2,7/s fica, alto 20/s sai.</p>
+      <p><b>Consequência:</b> menos custo e transação ACID; escala em bloco.</p></div>
+    <div class="adr"><div class="tag">ADR 0002 · aceito</div><h3>Eventos com outbox</h3>
+      <p><b>Contexto:</b> salvar e publicar em dois passos pode perder o evento.</p>
+      <p><b>Decisão:</b> o evento vai para a tabela outbox na mesma transação.</p>
+      <p><b>Consequência:</b> nenhum evento perdido; consumidores tratam duplicatas.</p></div>
+  </div>
+</section>
+
+<!-- 11 -->
+<section>
+  <div class="k">E · Premissas e Lei de Little</div>
+  <h1>A disponibilidade pesa mais que a carga</h1>
+  <table style="font-size:24px">
+    <tr><th></th><th>Baixo (piloto)</th><th>Moderado (PE)</th><th>Alto (Nordeste)</th></tr>
+    <tr><td>Hospitais · usuários</td><td>20 · 60</td><td>150 · 600</td><td>1.200 · 5.000</td></tr>
+    <tr><td>Pedidos por dia</td><td>150</td><td>1.500</td><td>12.000</td></tr>
+    <tr><td><b>Pico λ</b></td><td><b>3 req/s</b></td><td><b>20 req/s</b></td><td><b>120 req/s</b></td></tr>
+    <tr><td>Leituras de telemetria</td><td>0,3/s</td><td>2,7/s</td><td>20/s → Transporte extraído</td></tr>
+    <tr class="hl"><td><b>L = λ × W</b></td><td>3 × 0,20 = 0,6</td><td>20 × 0,20 = 4</td><td>120 × 0,25 = 30</td></tr>
+    <tr class="hl"><td>Instâncias (L ÷ 7)</td><td>1 → usamos 1</td><td>1 → usamos 2</td><td>5 → 3 a 6 + 2</td></tr>
+    <tr><td>Disponibilidade (meta)</td><td>99,0%</td><td>99,9%</td><td>99,9%</td></tr>
+    <tr><td>SLA composto</td><td>—</td><td>99,93% ✓</td><td>99,93% ✓</td></tr>
+  </table>
+  <div class="nota" style="margin-top:30px"><b>Em série:</b> ALB 99,99% × Fargate 99,99% × RDS Multi-AZ 99,95% = <b>99,93%</b> ≈ 31 min fora por mês. Fecha 99,9% (44 min), não fecharia 99,95% (22 min); para isso, Aurora (99,99%) daria 99,97%.</div>
+</section>
+</body></html>

@@ -6,13 +6,16 @@ sequenceDiagram
   R->>E: ReservarBolsas (comando)
   E-->>R: BolsasReservadas
   R->>R: alocar + marcarAtendida
-  R->>X: RequisicaoAtendida
-  X-->>R: RemessaFalhou (bolsa danificada na separação)
-  Note over R,E: Compensação
-  R->>E: LiberarReserva / DescartarBolsa (comando)
-  R->>R: voltar para EM_ATENDIMENTO
+  R->>X: MontarRemessa (comando)
+  X-->>R: RemessaFalhou (bolsa B-100 danificada)
+  Note over R,X: Compensação dos passos 3 e 2
+  R->>R: desalocar, voltar a EM_ATENDIMENTO
+  R->>E: DescartarBolsa B-100 + LiberarReserva (comandos)
   R->>E: ReservarBolsas (nova tentativa)
   E-->>R: BolsasReservadas
-  R->>X: RequisicaoAtendida
-  X-->>T: RemessaDespachada
+  R->>R: alocar + marcarAtendida
+  R->>X: MontarRemessa (comando)
+  X-->>R: RemessaMontada (guia + caixa)
+  R->>T: AbrirViagem (comando · ponto sem volta)
+  T-->>R: ViagemIniciada
   T-->>R: EntregaConcluida

@@ -1,5 +1,4 @@
 flowchart LR
   AP["Apresentação\ncontrollers REST · telas"] --> APL["Negócio · aplicação\ncasos de uso"]
-  APL --> DOM["Negócio · domínio\nagregados · VOs · interfaces de repositório"]
-  APL --> DAD["Dados\nJPA · adaptadores · fila"]
-  DAD -. "implementa interfaces do domínio" .-> DOM
+  APL -- "usa interfaces" --> DOM["Negócio · domínio\nagregados · VOs · interfaces\nRequisicaoRepository · EstoqueGateway"]
+  DAD["Dados\nJPA · adaptadores · fila"] -- "implementa interfaces" --> DOM

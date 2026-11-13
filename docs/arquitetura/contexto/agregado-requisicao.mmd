@@ -22,14 +22,21 @@ classDiagram
   class AlocacaoBolsa {
     <<Entidade>>
     CodigoBolsa codigo
+    Hemocomponente hemocomponente
     TipoSanguineo tipoBolsa
     Validade validade
+  }
+  class Hemocomponente {
+    <<Objeto de valor>>
+    CONCENTRADO_HEMACIAS
+    PLASMA_FRESCO_CONGELADO
+    compativel(doador, receptor)
   }
   class TipoSanguineo {
     <<Objeto de valor>>
     GrupoABO grupo
     FatorRh rh
-    podeDoarPara(TipoSanguineo)
+    antigenos()
   }
   class Validade {
     <<Objeto de valor>>
@@ -38,5 +45,6 @@ classDiagram
   }
   Requisicao "1" *-- "1..*" ItemRequisicao
   ItemRequisicao "1" *-- "0..*" AlocacaoBolsa
-  ItemRequisicao ..> TipoSanguineo
+  ItemRequisicao ..> Hemocomponente
+  Hemocomponente ..> TipoSanguineo
   AlocacaoBolsa ..> Validade
