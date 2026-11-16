@@ -1,4 +1,4 @@
-# Roteiro da apresentação — 24/11
+# Roteiro da apresentação — 26/11
 
 Até **10 minutos** de apresentação + 5 minutos de perguntas. O professor vai chamar **pessoas diferentes** para explicar o domínio, as contas e a saga: no ensaio, cada integrante explica as três partes abaixo sem olhar o slide.
 

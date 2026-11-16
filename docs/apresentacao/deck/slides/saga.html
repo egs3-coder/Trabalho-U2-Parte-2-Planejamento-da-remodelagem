@@ -1,0 +1,17 @@
+<section id="saga" class="alt">
+<p class="kicker">D · Saga “Atender requisição” <span class="who">· Saulo</span></p>
+<h2>Orquestrada: todos respondem à Requisição</h2>
+<table>
+<tr><th>#</th><th>Comando da Requisição</th><th>Resposta</th><th>Compensação</th></tr>
+<tr><td>1</td><td>(local) registra o pedido</td><td>—</td><td>Cancela e avisa o hospital</td></tr>
+<tr><td>2</td><td>ReservarBolsas → Estoque</td><td>BolsasReservadas</td><td>LiberarReserva</td></tr>
+<tr><td>3</td><td>(local) aloca e marca ATENDIDA</td><td>—</td><td>Desaloca</td></tr>
+<tr><td>4</td><td>MontarRemessa → Expedição</td><td>RemessaMontada ou RemessaFalhou</td><td>CancelarRemessa</td></tr>
+<tr><td><b>5</b></td><td><b>AbrirViagem → Transporte</b></td><td>ViagemIniciada, EntregaConcluida</td><td><b>Sem volta:</b> vira reposição</td></tr>
+</table>
+<p class="note"><b>Por que orquestrar:</b> 5 passos, compensação condicional e um ponto sem volta. O estado fica num lugar só, e a Expedição não fala com o Transporte.</p>
+<aside>FALA — SAULO (≈50 s)
+"Atender uma requisição envolve quatro serviços, então usamos uma saga. Escolhemos orquestração pura: a Requisição é o orquestrador. Ela manda um comando para cada serviço — reservar bolsas, montar remessa, abrir viagem — e cada serviço responde só para ela. Nenhum serviço chama o seguinte: a Expedição não avisa o Transporte, quem manda abrir a viagem é a Requisição. Cada passo tem uma compensação, menos o quinto: depois que a caixa sai, não tem como desfazer, então uma falha vira uma requisição de reposição. Escolhemos orquestrar porque, com compensação condicional e um ponto sem volta, é melhor ter o estado todo num lugar só."
+
+SE PERGUNTAREM: "Por que não coreografia?" → A regra 'falhou na expedição, desfaz alocação e reserva' ficaria espalhada em três serviços, difícil de rastrear e auditar.</aside>
+</section>

@@ -1,0 +1,20 @@
+<section id="c-pacotes" class="alt">
+<p class="kicker">C · Pacotes e tiers <span class="who">· Saulo</span></p>
+<h2>Um módulo por contexto, três camadas em cada</h2>
+<div class="row">
+<div class="dark-box" style="width:860px"><p class="t">br.cesar.rotavital</p><p style="font-family:'DejaVu Sans Mono', monospace; font-size:24px; line-height:1.5">requisicao/<br>├ apresentacao · RequisicaoController<br>├ negocio/aplicacao · AlocarBolsa<br>├ negocio/dominio · Requisicao,<br>│ Hemocomponente, EstoqueGateway<br>└ dados · RequisicaoRepositoryJpa,<br>&nbsp;&nbsp;EstoqueClient<br>estoque/ · expedicao/ · transporte/ · rede/</p></div>
+<div style="flex:1">
+<table>
+<tr><th>Tier físico</th><th>Camadas</th></tr>
+<tr><td><b>Cliente</b> · navegador e app</td><td>Telas</td></tr>
+<tr><td><b>Aplicação</b> · container Docker</td><td>Apresentação, negócio e dados</td></tr>
+<tr><td><b>Dados</b> · PostgreSQL</td><td>Persistência</td></tr>
+</table>
+<p class="note">Camada é como o código se organiza; tier é onde ele roda.</p>
+</div>
+</div>
+<aside>FALA — SAULO (≈45 s)
+"No código, cada contexto é um pacote com as mesmas três camadas. No exemplo da Requisição, a interface EstoqueGateway fica no domínio e o EstoqueClient, que implementa, fica em dados. Os outros quatro contextos seguem a mesma estrutura. É importante não confundir camada com tier: camada é a organização do código, tier é onde roda. As três camadas rodam juntas no mesmo container; o tier de dados é o servidor PostgreSQL, e o cliente é o navegador ou o app do motorista."
+
+SE PERGUNTAREM: "A camada de dados roda no banco?" → Não. O código dos repositórios roda no container, no tier de aplicação; o banco é outro tier.</aside>
+</section>

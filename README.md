@@ -20,9 +20,9 @@ Infraestrutura de Software · ADS · CESAR School · 2026.2
 
 ## Entregas
 
-### Pré-entrega · 17/11, até 19h15 (seções A e C)
+### Pré-entrega · 19/11, até 19h15 (seções A e C, versão parcial para devolutiva em sala, sem nota)
 
-📄 **Arquivo para o Classroom:** [`Hemotrack-Pre-entrega-Secoes-A-e-C.pdf`](docs/entregas/Hemotrack-Pre-entrega-Secoes-A-e-C.pdf)
+📄 **Arquivos para o Classroom:** [`Hemotrack-Pre-entrega-Secoes-A-e-C.pdf`](docs/entregas/Hemotrack-Pre-entrega-Secoes-A-e-C.pdf) (documento) · [`Hemotrack-Pre-entrega-Secoes-A-e-C-Slides.pdf`](docs/entregas/Hemotrack-Pre-entrega-Secoes-A-e-C-Slides.pdf) (8 slides)
 
 | Seção | Conteúdo | Arquivos de apoio |
 | --- | --- | --- |
@@ -30,9 +30,9 @@ Infraestrutura de Software · ADS · CESAR School · 2026.2
 | [A. Remodelagem do domínio com DDD](docs/arquitetura/documento.md#a-remodelagem-do-domínio-com-ddd) | [Subdomínios](docs/arquitetura/documento.md#a1-subdomínios) · [Bounded contexts](docs/arquitetura/documento.md#a2-bounded-contexts) · [Glossário](docs/arquitetura/documento.md#a3-glossário-da-linguagem-ubíqua) · [Mapa de contextos](docs/arquitetura/documento.md#a4-mapa-de-contextos) | [`mapa-de-contextos.mmd`](docs/arquitetura/contexto/mapa-de-contextos.mmd) · [PNG](docs/arquitetura/img/mapa-de-contextos.png) |
 | [C. Arquitetura em três camadas](docs/arquitetura/documento.md#c-arquitetura-em-três-camadas) | [O que fica em cada camada](docs/arquitetura/documento.md#c1-o-que-fica-em-cada-camada) · [Regra de dependência](docs/arquitetura/documento.md#c2-regra-de-dependência) · [Estrutura de pacotes](docs/arquitetura/documento.md#c3-estrutura-de-pacotes) · [Camada lógica × tier físico](docs/arquitetura/documento.md#c4-camada-lógica--tier-físico) | [`regra-de-dependencia.mmd`](docs/arquitetura/camadas/regra-de-dependencia.mmd) · [PNG](docs/arquitetura/img/regra-de-dependencia.png) |
 
-### Entrega final e apresentação · 24/11
+### Entrega final e apresentação · 26/11, até 19h15
 
-📄 **Arquivos para o Classroom:** [`Hemotrack-Rota-Vital-Parte-2.pdf`](docs/entregas/Hemotrack-Rota-Vital-Parte-2.pdf) (11 páginas, limite de 12) · [`Hemotrack-Rota-Vital-Parte-2-Slides.pdf`](docs/entregas/Hemotrack-Rota-Vital-Parte-2-Slides.pdf) (16 slides)
+📄 **Arquivos para o Classroom:** [`Hemotrack-Rota-Vital-Parte-2.pdf`](docs/entregas/Hemotrack-Rota-Vital-Parte-2.pdf) (11 páginas, limite de 12) · [`Hemotrack-Rota-Vital-Parte-2-Slides.pdf`](docs/entregas/Hemotrack-Rota-Vital-Parte-2-Slides.pdf) (17 slides) · diagramas, planilha e ADRs em [`docs/arquitetura/`](docs/arquitetura/)
 
 | Seção | Conteúdo | Arquivos de apoio |
 | --- | --- | --- |
@@ -52,11 +52,16 @@ Infraestrutura de Software · ADS · CESAR School · 2026.2
 ```
 docs/
 ├── entregas/                             # PDFs para o Classroom
-│   ├── Hemotrack-Pre-entrega-Secoes-A-e-C.pdf   # 17/11
-│   ├── Hemotrack-Rota-Vital-Parte-2.pdf         # 24/11
-│   └── Hemotrack-Rota-Vital-Parte-2-Slides.pdf  # 24/11
-├── apresentacao/roteiro.md               # divisão, contas e perguntas prováveis
-├── PENDENCIAS.md                         # o que falta até 24/11
+│   ├── Hemotrack-Pre-entrega-Secoes-A-e-C.pdf         # 19/11 · documento
+│   ├── Hemotrack-Pre-entrega-Secoes-A-e-C-Slides.pdf  # 19/11 · slides
+│   ├── Hemotrack-Rota-Vital-Parte-2.pdf               # 26/11 · documento
+│   ├── Hemotrack-Rota-Vital-Parte-2-Slides.pdf        # 26/11 · slides
+│   └── fonte/                                         # gera os PDFs do documento
+├── apresentacao/
+│   ├── deck/                             # fonte dos slides (HTML/CSS) e build_pdf.py
+│   ├── roteiro-de-fala.md                # fala de cada dupla, slide por slide
+│   └── roteiro.md                        # divisão, contas e perguntas prováveis
+├── PENDENCIAS.md                         # o que falta até 26/11
 └── arquitetura/
     ├── documento.md                      # documento completo em Markdown
     ├── adr/

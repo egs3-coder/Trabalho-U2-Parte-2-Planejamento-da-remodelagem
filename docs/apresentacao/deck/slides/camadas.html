@@ -1,0 +1,15 @@
+<section id="camadas" class="alt">
+<p class="kicker">C · Três camadas <span class="who">· Lucas</span></p>
+<h2>Todas as dependências apontam para o domínio</h2>
+<div class="panel" style="align-self:center; margin-bottom:36px"><img src="/_blob/869dfe2da5992e03ddf9ed54aea35121" alt="Apresentação aponta para aplicação, aplicação usa interfaces do domínio e dados implementa interfaces do domínio" style="width:1200px; height:270px"></div>
+<table>
+<tr><th>Camada</th><th>Contém</th><th>Depende de</th></tr>
+<tr><td><b>Apresentação</b></td><td>Controllers REST, DTOs, telas</td><td>Aplicação</td></tr>
+<tr><td><b>Negócio</b></td><td>Casos de uso, agregados e interfaces (RequisicaoRepository, EstoqueGateway)</td><td>Ninguém: Java puro</td></tr>
+<tr><td><b>Dados</b></td><td>Repositórios JPA, EstoqueClient, fila</td><td>Domínio (implementa)</td></tr>
+</table>
+<aside>FALA — LUCAS (≈45 s)
+"Cada contexto vira um módulo com três camadas: apresentação, negócio e dados. O ponto importante é a direção das setas: todas apontam para o domínio. A aplicação nunca importa a camada de dados; ela usa interfaces que moram no domínio, como RequisicaoRepository. Quem implementa é a camada de dados, e o Spring injeta a implementação quando sobe. Isso é a inversão de dependência. Para isso não se perder, a esteira roda testes ArchUnit que quebram o build se o domínio importar Spring ou JPA, ou se a aplicação importar dados."
+
+SE PERGUNTAREM: "Camada lógica é a mesma coisa que tier?" → Não. Camada é organização do código; tier é onde roda. As três camadas rodam juntas num container; os tiers são navegador, container e banco.</aside>
+</section>

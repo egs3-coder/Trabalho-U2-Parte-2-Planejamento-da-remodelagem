@@ -1,0 +1,13 @@
+<section id="falha-adr" class="alt">
+<p class="kicker">D · Falha e decisões <span class="who">· Saulo</span></p>
+<h2>O que acontece quando algo dá errado</h2>
+<div class="alert" style="margin-bottom:40px"><p><b>Bolsa danificada:</b> a Expedição acha a B-100 rompida e responde RemessaFalhou. A Requisição desfaz os passos 3 e 2, manda descartar a B-100 e reserva de novo. Sem estoque, avisa o hospital.</p></div>
+<div class="cards">
+<div class="card"><p class="tag">ADR 0001 · Decomposição</p><p>Monolito modular agora. O Transporte sai primeiro, acima de <b>~10 leituras/s</b>: moderado <b>2,7/s</b> fica, alto <b>20/s</b> sai.</p></div>
+<div class="card"><p class="tag">ADR 0002 · Outbox</p><p>O evento vai para a tabela outbox na mesma transação do dado. Nenhum evento perdido; consumidores tratam duplicatas.</p></div>
+</div>
+<aside>FALA — SAULO (≈40 s)
+"Exemplo de falha: na separação, a Expedição encontra a bolsa B-100 rompida e responde RemessaFalhou. A Requisição compensa na ordem inversa: desaloca, manda o Estoque descartar a B-100 e liberar as outras, e tenta reservar de novo. Registramos duas decisões em ADR. A primeira: começamos com monolito modular, e o Transporte é o primeiro a sair quando a telemetria passar de umas 10 leituras por segundo. No moderado são 80 caixas, 2,7 leituras por segundo, fica no monolito; no alto são 600 caixas, 20 por segundo, e sai. A segunda é o outbox. Agora o Thiago mostra as contas."
+
+SE PERGUNTAREM: "De onde vem leituras/s?" → Cada caixa manda uma leitura a cada 30 s: 600 ÷ 30 = 20/s. "Por que 10?" → Fica entre o moderado e o alto com folga de quase 4× sobre o moderado; será medido no teste de carga da Parte 3.</aside>
+</section>

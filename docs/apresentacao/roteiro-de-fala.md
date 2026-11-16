@@ -1,4 +1,4 @@
-# Roteiro de fala — 24/11
+# Roteiro de fala — 26/11
 
 Fala de cada integrante, slide por slide, mais a resposta para as perguntas mais prováveis. O mesmo texto está nas notas do apresentador do deck. **Todos leem o roteiro inteiro**: o professor vai chamar pessoas diferentes para explicar o domínio, as contas e a saga.
 
@@ -142,7 +142,7 @@ Como ensaiar: 1) cada um apresenta a sua parte cronometrando; 2) rodada cruzada,
 
 > "Sobre o uso de IA, seguimos a política da faculdade: usamos o Claude para gerar o rascunho, e cada dupla validou a parte que apresentou. Pablo e João conferiram o domínio com o fluxo real do hemocentro e a regra ABO; Lucas e Saulo conferiram as setas e a saga; Thiago e Eloi refizeram as contas, e todos os preços foram levantados por nós, sem IA. Tudo está detalhado no documento."
 
-- ATENÇÃO: antes do dia 24, cada um confirma que fez a validação que está escrita aqui.
+- ATENÇÃO: antes do dia 26, cada um confirma que fez a validação que está escrita aqui.
 
 ### Slide 17 · Perguntas?
 
@@ -157,3 +157,42 @@ Como ensaiar: 1) cada um apresenta a sua parte cronometrando; 2) rodada cruzada,
 - Contas: L = λ × W (120 × 0,25 = 30 → 5 instâncias); 99,99 × 99,99 × 99,95 = 99,93% ≈ 31 min/mês; custo por pedido = custo ÷ pedidos.
 
 - Saga: orquestrada pela Requisição; todos respondem a ela; passo 5 sem volta; falha no 4 desfaz 3 e 2.
+
+---
+
+# Pré-entrega — 19/11 (seções A e C, sem nota)
+
+Slides: [`Hemotrack-Pre-entrega-Secoes-A-e-C-Slides.pdf`](../entregas/Hemotrack-Pre-entrega-Secoes-A-e-C-Slides.pdf) (8 slides, ≈5 min). Usa as mesmas falas da entrega final para os slides de A e C; abaixo, só o que muda.
+
+| # | Slide | Quem |
+| --- | --- | --- |
+| 1 | Capa da pré-entrega | Ewerton |
+| 2 | Duas seções, duas duplas | Ewerton |
+| 3 | Subdomínios (igual ao slide 4 da final) | Pablo |
+| 4 | Glossário (igual ao slide 5) | Pablo |
+| 5 | Mapa de contextos (igual ao slide 6) | João |
+| 6 | Três camadas (igual ao slide 8) | Lucas |
+| 7 | Pacotes e tiers (só na pré-entrega) | Saulo |
+| 8 | Perguntas | Ewerton |
+
+### Slide 1 · Capa da pré-entrega
+
+**FALA — EWERTON (≈15 s)**
+
+> "Boa noite, professor. Esta é a pré-entrega do squad Hemotrack: as seções A e C em versão parcial. Pablo e João mostram o domínio, Lucas e Saulo a arquitetura em três camadas. Queremos a devolutiva para fechar a entrega do dia 26."
+
+### Slide 2 · Duas seções, duas duplas
+
+**FALA — EWERTON (≈15 s)**
+
+> "Hoje trazemos só as seções A e C. B, D e E entram na entrega final do dia 26. Pablo, pode começar."
+
+### Slide 7 · Um módulo por contexto, três camadas em cada
+
+**FALA — SAULO (≈45 s)**
+
+> "No código, cada contexto é um pacote com as mesmas três camadas. No exemplo da Requisição, a interface EstoqueGateway fica no domínio e o EstoqueClient, que implementa, fica em dados. Os outros quatro contextos seguem a mesma estrutura. É importante não confundir camada com tier: camada é a organização do código, tier é onde roda. As três camadas rodam juntas no mesmo container; o tier de dados é o servidor PostgreSQL, e o cliente é o navegador ou o app do motorista."
+
+- SE PERGUNTAREM: "A camada de dados roda no banco?" → Não. O código dos repositórios roda no container, no tier de aplicação; o banco é outro tier.
+
+Thiago e Eloi não apresentam na pré-entrega, mas devem acompanhar e anotar a devolutiva.

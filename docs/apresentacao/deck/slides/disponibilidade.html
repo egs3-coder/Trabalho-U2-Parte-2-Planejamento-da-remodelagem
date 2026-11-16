@@ -1,0 +1,14 @@
+<section id="disponibilidade" class="statement">
+<p class="kicker">E · Disponibilidade composta <span class="who">· Thiago</span></p>
+<h2 style="font-size:60px; margin:16px 0 24px">Em série, as disponibilidades se multiplicam</h2>
+<p class="formula">99,99% × 99,99% × 99,95% = <span>99,93%</span></p>
+<div class="cards">
+<div class="card"><p class="tag">Load balancer · Fargate · RDS Multi-AZ</p><p class="num">≈ 31 min</p><p>fora do ar por mês (43.800 min × 0,0007)</p></div>
+<div class="card"><p class="tag">Meta 99,9%</p><p class="num">44 min</p><p>permitidos: <b>fecha</b> no moderado e no alto</p></div>
+<div class="card"><p class="tag">Meta 99,95%</p><p class="num red">22 min</p><p><b>não fecha</b>: só com Aurora (99,99%) daria 99,97%</p></div>
+</div>
+<aside>FALA — THIAGO (≈45 s)
+"O professor pediu para conferir a disponibilidade do cenário alto. Um pedido passa em série pelo load balancer, pelas tarefas no Fargate e pelo banco: se qualquer um cair, o pedido falha, então multiplicamos os SLAs publicados pela AWS: 99,99 vezes 99,99 vezes 99,95 dá 99,93%. Isso são uns 31 minutos fora do ar por mês. Para 99,9% podemos ficar até 44 minutos fora, então fecha. Para 99,95% seriam só 22 minutos: não fecha. Por isso ajustamos a meta do alto para 99,9%. Para chegar a 99,95% teríamos que trocar o RDS por Aurora, que tem SLA de 99,99%. O Eloi mostra os cenários e o custo."
+
+SE PERGUNTAREM: "E a fila SQS?" → Não entra na conta: com o outbox, se a fila cair, os eventos esperam na tabela e o pedido continua sendo atendido.</aside>
+</section>
