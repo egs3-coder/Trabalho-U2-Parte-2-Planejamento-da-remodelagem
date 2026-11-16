@@ -17,6 +17,6 @@
     - [x] AWS (moderado e alto): calculator.aws, região US East (N. Virginia), com Fargate ARM, ALB, RDS PostgreSQL Multi-AZ (db.t4g.small e db.t4g.large), gp3, IPv4, SQS, CloudWatch Logs e S3
     - [x] Atualizar valores e data em [`arquitetura/orcamento.xlsx`](arquitetura/orcamento.xlsx) e no documento
 - [x] **Revisar a seção "Uso de IA"** com o que o squad realmente fez e validou.
-- [x] **Slides** da apresentação: [`entregas/Hemotrack-Rota-Vital-Parte-2-Slides.pdf`](entregas/Hemotrack-Rota-Vital-Parte-2-Slides.pdf) (17 slides, por dupla).
+- [x] **Slides** da apresentação: [`entregas/Hemotrack-Rota-Vital-Parte-2-Slides.pdf`](entregas/Hemotrack-Rota-Vital-Parte-2-Slides.pdf) (16 slides, por dupla).
 - [ ] **Ensaiar** com cronômetro seguindo o [roteiro de fala](apresentacao/roteiro-de-fala.md).
 - [ ] **Entrega final (26/11, até 19h15):** PDF do documento (até 12 páginas) + PDF dos slides no Classroom; diagramas, planilha e ADRs já estão em `docs/arquitetura/`.

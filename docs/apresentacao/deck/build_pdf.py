@@ -8,7 +8,7 @@ BLOBS = {"8e965e7bb1c32ee072afa0f81a0bf924": "logo-panel", "6e9bd68fc5ccff93b0c5
          "6c3e3cdd4f4bead624198df7129ccb36": "mapa-de-contextos", "4c1f1329ff0784e1d12f72cde1641cd2": "moderado",
          "fa6c7ddbbee185c67d7ac88991c5bbdd": "regra-de-dependencia", "41fbc7f64901d6dfd6fbdd01a5261e46": "saga-atender-requisicao"}
 FINAL = json.loads((DECK / "deck.json").read_text(encoding="utf-8"))["order"]
-PRE = ["pre-capa", "pre-quem-fala", "subdominios", "glossario", "mapa", "camadas", "c-pacotes", "perguntas"]
+PRE = ["pre-capa", "subdominios", "glossario", "mapa", "camadas", "c-pacotes", "obrigado"]
 css = (DECK / "deck.css").read_text(encoding="utf-8")
 FACES = "".join(f"@font-face{{font-family:'{fam}';src:url('{(FONTS / arq).as_uri()}') format('woff2');font-weight:{peso};{faixa}}}"
                 for fam, arq, peso, faixa in [("Noto Sans", "noto-sans-latin-wght-normal.woff2", "100 900", ""),

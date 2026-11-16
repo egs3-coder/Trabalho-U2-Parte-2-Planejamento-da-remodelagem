@@ -55,3 +55,6 @@ ul.plain { font-size:28px; line-height:1.5; margin:0; padding-left:36px; color:v
 .cards .card:nth-child(3) { animation-delay:.24s; }
 .cards .card:nth-child(4) { animation-delay:.36s; }
 @keyframes rise { from { opacity:0; transform:translateY(24px); } }
+.thanks { justify-content:center; padding:128px; }
+.thanks .logo { width:890px; height:500px; }
+.thanks h1 { font-size:120px; margin:24px 0 0; }

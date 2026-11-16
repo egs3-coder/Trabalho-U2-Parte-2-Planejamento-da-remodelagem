@@ -15,6 +15,18 @@ O squad Hemotrack remodela o Rota Vital como um monolito modular em três camada
 | Repositório | [github.com/egs3-coder/Trabalho-U2-Parte-2-Planejamento-da-remodelagem](https://github.com/egs3-coder/Trabalho-U2-Parte-2-Planejamento-da-remodelagem) — pasta `docs/arquitetura/`. Na Parte 3 a pasta segue, sem mudar de estrutura, para o repositório do código, junto da esteira da Parte 1. |
 | Disciplina | Infraestrutura de Software · ADS · CESAR School · 2026.2 |
 
+**Quem foi responsável pelo quê** (no documento e na apresentação):
+
+| Integrante | Papel | Responsável por |
+| --- | --- | --- |
+| Ewerton Guilherme da Silva | Product Owner | Coordenação, abertura e fechamento da apresentação, uso de IA e revisão final |
+| Pablo Arthur Eustáquio de Lima | Backend | A: subdomínios, bounded contexts e glossário |
+| João Ricardo Alves de Brito | Backend | A: mapa de contextos · B: agregado, compatibilidade e Gherkin |
+| Lucas Aprigio dos Santos | Backend | C: camadas e regra de dependência · D: microsserviços |
+| Saulo Eduardo Almeida dos Santos | Backend | C: pacotes e tiers · D: saga e ADRs |
+| Thiago Cardozo da Conceição | Frontend / UI | E: Lei de Little e disponibilidade composta |
+| Eloi de Lima Sousa | Frontend / UI | E: cenários e orçamento |
+
 **Premissas:** o Rota Vital coordena bolsas de sangue entre um hemocentro e hospitais: requisição → reserva no estoque → expedição em caixa térmica com sensor → transporte → recebimento. Stack da Parte 1: Java 21 + Spring Boot, PostgreSQL, Docker e GitHub Actions. Apenas dados sintéticos.
 
 ## A. Remodelagem do domínio com DDD
