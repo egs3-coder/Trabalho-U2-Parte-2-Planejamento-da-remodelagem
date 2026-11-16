@@ -22,7 +22,7 @@ Infraestrutura de Software · ADS · CESAR School · 2026.2
 
 ### Pré-entrega · 19/11, até 19h15 (seções A e C, versão parcial para devolutiva em sala, sem nota)
 
-📄 **Arquivos para o Classroom:** [`Hemotrack-Pre-entrega-Secoes-A-e-C.pdf`](docs/entregas/Hemotrack-Pre-entrega-Secoes-A-e-C.pdf) (documento) · [`Hemotrack-Pre-entrega-Secoes-A-e-C-Slides.pdf`](docs/entregas/Hemotrack-Pre-entrega-Secoes-A-e-C-Slides.pdf) (8 slides)
+📄 **Arquivos para o Classroom:** [`Hemotrack-Pre-entrega-Secoes-A-e-C.pdf`](docs/entregas/Hemotrack-Pre-entrega-Secoes-A-e-C.pdf) (documento) · [`Hemotrack-Pre-entrega-Secoes-A-e-C-Slides.pdf`](docs/entregas/Hemotrack-Pre-entrega-Secoes-A-e-C-Slides.pdf) (7 slides)
 
 | Seção | Conteúdo | Arquivos de apoio |
 | --- | --- | --- |
@@ -32,7 +32,7 @@ Infraestrutura de Software · ADS · CESAR School · 2026.2
 
 ### Entrega final e apresentação · 26/11, até 19h15
 
-📄 **Arquivos para o Classroom:** [`Hemotrack-Rota-Vital-Parte-2.pdf`](docs/entregas/Hemotrack-Rota-Vital-Parte-2.pdf) (11 páginas, limite de 12) · [`Hemotrack-Rota-Vital-Parte-2-Slides.pdf`](docs/entregas/Hemotrack-Rota-Vital-Parte-2-Slides.pdf) (17 slides) · diagramas, planilha e ADRs em [`docs/arquitetura/`](docs/arquitetura/)
+📄 **Arquivos para o Classroom:** [`Hemotrack-Rota-Vital-Parte-2.pdf`](docs/entregas/Hemotrack-Rota-Vital-Parte-2.pdf) (11 páginas, limite de 12) · [`Hemotrack-Rota-Vital-Parte-2-Slides.pdf`](docs/entregas/Hemotrack-Rota-Vital-Parte-2-Slides.pdf) (16 slides) · diagramas, planilha e ADRs em [`docs/arquitetura/`](docs/arquitetura/)
 
 | Seção | Conteúdo | Arquivos de apoio |
 | --- | --- | --- |

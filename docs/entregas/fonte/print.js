@@ -10,7 +10,7 @@ const puppeteer = require('/opt/npm-tools/node_modules/puppeteer');
   } else {
     await p.pdf({ path: out, format: 'A4', printBackground: true, preferCSSPageSize: true, displayHeaderFooter: true,
       headerTemplate: '<span></span>',
-      footerTemplate: '<div style="width:100%;font-family:Liberation Sans,Arial;font-size:7pt;text-align:right;padding-right:16mm;color:#222">Hemotrack · Rota Vital · Parte 2 — <span class="pageNumber"></span>/<span class="totalPages"></span></div>' });
+      footerTemplate: '<div style="width:100%;font-family:DejaVu Sans Mono,monospace;font-size:6.5pt;text-align:right;padding-right:15mm;color:#5d6676">Hemotrack · Rota Vital · Parte 2 — <span class="pageNumber"></span>/<span class="totalPages"></span></div>' });
   }
   await b.close();
 })();

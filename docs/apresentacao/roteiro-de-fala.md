@@ -1,6 +1,6 @@
 # Roteiro de fala — 26/11
 
-Fala de cada integrante, slide por slide, mais a resposta para as perguntas mais prováveis. O mesmo texto está nas notas do apresentador do deck. **Todos leem o roteiro inteiro**: o professor vai chamar pessoas diferentes para explicar o domínio, as contas e a saga.
+Fala de cada integrante, slide por slide, mais a resposta para as perguntas mais prováveis. O mesmo texto está nas notas do apresentador do deck. A tabela de quem foi responsável pelo quê está no documento (Identificação). **Todos leem o roteiro inteiro**: o professor vai chamar pessoas diferentes para explicar o domínio, as contas e a saga.
 
 Como ensaiar: 1) cada um apresenta a sua parte cronometrando; 2) rodada cruzada, em que cada pessoa explica uma parte que não é dela; 3) um faz o papel do professor e escolhe a pergunta.
 
@@ -14,15 +14,13 @@ Como ensaiar: 1) cada um apresenta a sua parte cronometrando; 2) rodada cruzada,
 
 - Dica: falar devagar, sem ler o slide.
 
-### Slide 2 · Cada dupla apresenta uma parte
-
-**FALA — EWERTON (≈20 s)**
+**EM SEGUIDA, AINDA NA CAPA (≈20 s)**
 
 > "Dividimos em duplas: Pablo e João falam do domínio, Lucas e Saulo da arquitetura e da saga, Thiago e Eloi das contas e do orçamento. Mas ensaiamos cruzado: o senhor pode chamar qualquer um de nós para explicar qualquer parte."
 
 - Essa frase responde direto ao pedido do professor. Não pular.
 
-### Slide 3 · A Parte 1 colocou o Rota Vital no ar
+### Slide 2 · A Parte 1 colocou o Rota Vital no ar
 
 **FALA — EWERTON (≈20 s)**
 
@@ -32,7 +30,7 @@ Como ensaiar: 1) cada um apresenta a sua parte cronometrando; 2) rodada cruzada,
 
 ## A e B · Domínio · Pablo e João (3 min)
 
-### Slide 4 · O core é entregar a bolsa certa, dentro da cadeia fria
+### Slide 3 · O core é entregar a bolsa certa, dentro da cadeia fria
 
 **FALA — PABLO (≈45 s)**
 
@@ -40,7 +38,7 @@ Como ensaiar: 1) cada um apresenta a sua parte cronometrando; 2) rodada cruzada,
 
 - SE PERGUNTAREM: "Por que o transporte é core?" → Porque a rastreabilidade da cadeia fria é o que garante que a bolsa chega utilizável; sem isso a entrega não vale.
 
-### Slide 5 · A mesma palavra muda de sentido em cada contexto
+### Slide 4 · A mesma palavra muda de sentido em cada contexto
 
 **FALA — PABLO (≈45 s)**
 
@@ -48,7 +46,7 @@ Como ensaiar: 1) cada um apresenta a sua parte cronometrando; 2) rodada cruzada,
 
 - SE PERGUNTAREM: "Por que Rede é separado?" → Hospitais e endereços mudam pouco e são consultados por todos; ela expõe um serviço aberto.
 
-### Slide 6 · O mapa acompanha o caminho da bolsa
+### Slide 5 · O mapa acompanha o caminho da bolsa
 
 **FALA — JOÃO (≈40 s)**
 
@@ -56,7 +54,7 @@ Como ensaiar: 1) cada um apresenta a sua parte cronometrando; 2) rodada cruzada,
 
 - SE PERGUNTAREM: "Por que anticorrupção?" → Para o formato do fabricante não vazar para dentro do nosso domínio; se trocar o sensor, só o adaptador muda.
 
-### Slide 7 · A compatibilidade depende do hemocomponente
+### Slide 6 · A compatibilidade depende do hemocomponente
 
 **FALA — JOÃO (≈55 s)**
 
@@ -68,7 +66,7 @@ Como ensaiar: 1) cada um apresenta a sua parte cronometrando; 2) rodada cruzada,
 
 ## C e D · Arquitetura e saga · Lucas e Saulo (3 min)
 
-### Slide 8 · Todas as dependências apontam para o domínio
+### Slide 7 · Todas as dependências apontam para o domínio
 
 **FALA — LUCAS (≈45 s)**
 
@@ -76,7 +74,7 @@ Como ensaiar: 1) cada um apresenta a sua parte cronometrando; 2) rodada cruzada,
 
 - SE PERGUNTAREM: "Camada lógica é a mesma coisa que tier?" → Não. Camada é organização do código; tier é onde roda. As três camadas rodam juntas num container; os tiers são navegador, container e banco.
 
-### Slide 9 · Quatro serviços, um banco para cada
+### Slide 8 · Quatro serviços, um banco para cada
 
 **FALA — LUCAS (≈40 s)**
 
@@ -84,7 +82,7 @@ Como ensaiar: 1) cada um apresenta a sua parte cronometrando; 2) rodada cruzada,
 
 - SE PERGUNTAREM: "O que é outbox?" → O evento é gravado numa tabela na mesma transação do dado; um processo publica depois. Se a fila cair, o evento espera na tabela (ADR 0002).
 
-### Slide 10 · Orquestrada: todos respondem à Requisição
+### Slide 9 · Orquestrada: todos respondem à Requisição
 
 **FALA — SAULO (≈50 s)**
 
@@ -92,7 +90,7 @@ Como ensaiar: 1) cada um apresenta a sua parte cronometrando; 2) rodada cruzada,
 
 - SE PERGUNTAREM: "Por que não coreografia?" → A regra 'falhou na expedição, desfaz alocação e reserva' ficaria espalhada em três serviços, difícil de rastrear e auditar.
 
-### Slide 11 · O que acontece quando algo dá errado
+### Slide 10 · O que acontece quando algo dá errado
 
 **FALA — SAULO (≈40 s)**
 
@@ -102,7 +100,7 @@ Como ensaiar: 1) cada um apresenta a sua parte cronometrando; 2) rodada cruzada,
 
 ## E · Contas e orçamento · Thiago e Eloi (2,5 min)
 
-### Slide 12 · L = λ × W diz quantas instâncias precisamos
+### Slide 11 · L = λ × W diz quantas instâncias precisamos
 
 **FALA — THIAGO (≈45 s)**
 
@@ -110,7 +108,7 @@ Como ensaiar: 1) cada um apresenta a sua parte cronometrando; 2) rodada cruzada,
 
 - SE PERGUNTAREM: "De onde vem o 7?" → Estimativa de 10 simultâneas por vCPU com 70% de folga; será medida no teste de carga da Parte 3.
 
-### Slide 13 · Em série, as disponibilidades se multiplicam
+### Slide 12 · Em série, as disponibilidades se multiplicam
 
 **FALA — THIAGO (≈45 s)**
 
@@ -118,7 +116,7 @@ Como ensaiar: 1) cada um apresenta a sua parte cronometrando; 2) rodada cruzada,
 
 - SE PERGUNTAREM: "E a fila SQS?" → Não entra na conta: com o outbox, se a fila cair, os eventos esperam na tabela e o pedido continua sendo atendido.
 
-### Slide 14 · A mesma aplicação em três tamanhos
+### Slide 13 · A mesma aplicação em três tamanhos
 
 **FALA — ELOI (≈40 s)**
 
@@ -126,7 +124,7 @@ Como ensaiar: 1) cada um apresenta a sua parte cronometrando; 2) rodada cruzada,
 
 - SE PERGUNTAREM: "Por que us-east-1 e não São Paulo?" → O banco em sa-east-1 custa cerca do dobro; com dados sintéticos a latência não afeta. Em produção real, a LGPD pediria revisão.
 
-### Slide 15 · O custo sobe 10×; o custo por pedido cai 8×
+### Slide 14 · O custo sobe 10×; o custo por pedido cai 8×
 
 **FALA — ELOI (≈30 s)**
 
@@ -136,7 +134,7 @@ Como ensaiar: 1) cada um apresenta a sua parte cronometrando; 2) rodada cruzada,
 
 ## Fechamento · Ewerton (0,5 min)
 
-### Slide 16 · A IA gerou o rascunho; cada dupla validou a sua parte
+### Slide 15 · A IA gerou o rascunho; cada dupla validou a sua parte
 
 **FALA — EWERTON (≈25 s)**
 
@@ -144,11 +142,11 @@ Como ensaiar: 1) cada um apresenta a sua parte cronometrando; 2) rodada cruzada,
 
 - ATENÇÃO: antes do dia 26, cada um confirma que fez a validação que está escrita aqui.
 
-### Slide 17 · Perguntas?
+### Slide 16 · Obrigado!
 
-**FALA — EWERTON (≈10 s)**
+**FALA — EWERTON (≈5 s)**
 
-> "Está tudo no repositório. A Parte 3 transforma esse plano em código. Obrigado, ficamos à disposição para perguntas — e qualquer um de nós pode responder sobre qualquer parte."
+> "Obrigado, professor. Ficamos à disposição para perguntas — e qualquer um de nós pode responder sobre qualquer parte."
 
 - COLA PARA AS PERGUNTAS (quem for chamado):
 
@@ -162,32 +160,29 @@ Como ensaiar: 1) cada um apresenta a sua parte cronometrando; 2) rodada cruzada,
 
 # Pré-entrega — 19/11 (seções A e C, sem nota)
 
-Slides: [`Hemotrack-Pre-entrega-Secoes-A-e-C-Slides.pdf`](../entregas/Hemotrack-Pre-entrega-Secoes-A-e-C-Slides.pdf) (8 slides, ≈5 min). Usa as mesmas falas da entrega final para os slides de A e C; abaixo, só o que muda.
+Slides: [`Hemotrack-Pre-entrega-Secoes-A-e-C-Slides.pdf`](../entregas/Hemotrack-Pre-entrega-Secoes-A-e-C-Slides.pdf) (7 slides, ≈5 min). Os slides de A e C usam as mesmas falas da entrega final; abaixo, só o que muda.
 
 | # | Slide | Quem |
 | --- | --- | --- |
 | 1 | Capa da pré-entrega | Ewerton |
-| 2 | Duas seções, duas duplas | Ewerton |
-| 3 | Subdomínios (igual ao slide 4 da final) | Pablo |
-| 4 | Glossário (igual ao slide 5) | Pablo |
-| 5 | Mapa de contextos (igual ao slide 6) | João |
-| 6 | Três camadas (igual ao slide 8) | Lucas |
-| 7 | Pacotes e tiers (só na pré-entrega) | Saulo |
-| 8 | Perguntas | Ewerton |
+| 2 | Subdomínios | Pablo |
+| 3 | Glossário | Pablo |
+| 4 | Mapa de contextos | João |
+| 5 | Três camadas | Lucas |
+| 6 | Pacotes e tiers (só na pré-entrega) | Saulo |
+| 7 | Obrigado | Ewerton |
 
-### Slide 1 · Capa da pré-entrega
+### Slide 1 · Rota Vital, remodelado
 
 **FALA — EWERTON (≈15 s)**
 
 > "Boa noite, professor. Esta é a pré-entrega do squad Hemotrack: as seções A e C em versão parcial. Pablo e João mostram o domínio, Lucas e Saulo a arquitetura em três camadas. Queremos a devolutiva para fechar a entrega do dia 26."
 
-### Slide 2 · Duas seções, duas duplas
-
-**FALA — EWERTON (≈15 s)**
+**EM SEGUIDA, AINDA NA CAPA (≈15 s)**
 
 > "Hoje trazemos só as seções A e C. B, D e E entram na entrega final do dia 26. Pablo, pode começar."
 
-### Slide 7 · Um módulo por contexto, três camadas em cada
+### Slide 6 · Um módulo por contexto, três camadas em cada
 
 **FALA — SAULO (≈45 s)**
 
