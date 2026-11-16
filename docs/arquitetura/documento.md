@@ -371,16 +371,17 @@ Preços on-demand em dólar, conferidos pelo squad em **12/11/2026** na página 
 
 ## Uso de IA
 
-Conforme o PO-CESAR-021 (categoria Condicionado). Apenas dados sintéticos do Rota Vital foram usados.
+Conforme o PO-CESAR-021 (categoria Condicionado). Apenas dados sintéticos do Rota Vital foram usados. O Claude (Anthropic) gerou o rascunho de quase todo o trabalho a partir do enunciado; cada parte tem uma dupla responsável, que conferiu o conteúdo com o método descrito abaixo e é quem o explica na apresentação. As correções da devolutiva de 13/11 também foram geradas com o Claude e conferidas pelas mesmas duplas.
 
-| Quem / ferramenta | O que fez | Como foi validado |
-| --- | --- | --- |
-| Claude (Anthropic) | Estrutura e redação do documento, subdomínios, glossário, mapa de contextos, agregado e Gherkin, arquitetura em camadas, projeção com microsserviços, ADRs, diagramas Mermaid, contas da Lei de Little e da disponibilidade composta, consulta dos SLAs, fórmulas da planilha e slides | Cada parte foi conferida por quem a apresenta, conforme as linhas abaixo |
-| Pablo e João (domínio) | Conferiram a seção A e o agregado da seção B | Subdomínios e contextos comparados com o fluxo real do hemocentro (requisição → reserva → expedição → transporte → recebimento); glossário checado termo a termo nos dois contextos; regra de compatibilidade de hemácias e de plasma (I1) conferida em material de hemoterapia; os exemplos do Gherkin testados à mão contra I1 e I2 |
-| Lucas e Saulo (arquitetura) | Conferiram as seções C e D e os ADRs | Diagrama de dependências comparado com a árvore de pacotes (nenhuma seta de aplicação para dados); saga percorrida passo a passo, com cada resposta voltando ao orquestrador; limite de extração do ADR 0001 comparado com as leituras/s dos cenários |
-| Thiago e Eloi (contas) | Conferiram a seção E | Lei de Little, custo por pedido e disponibilidade composta refeitos na calculadora e na planilha `orcamento.xlsx`; SLAs conferidos nas páginas oficiais da AWS |
-| Ewerton (PO) | Revisão final | Coerência entre documento, diagramas, README e slides antes da entrega |
-| Cucumber-JVM | Execução do cenário Gherkin da seção B | Na Parte 3 |
+| Parte | O que o Claude gerou | Quem validou | Como validou |
+| --- | --- | --- | --- |
+| **A. Domínio** (subdomínios, contextos, glossário, mapa) | Classificação core/suporte/genérico, os 5 bounded contexts, o glossário com termos de sentido diferente por contexto e o mapa com os padrões de relação | Pablo e João | Contextos comparados com o fluxo real do hemocentro (requisição → reserva → expedição → transporte → recebimento); cada termo do glossário lido nos dois contextos para confirmar a mudança de sentido; cada relação do mapa justificada pelo time |
+| **B. Modelo tático e Gherkin** | Agregado `Requisicao`, invariantes I1 a I5, história e critérios de aceite, cenário Gherkin | Pablo e João | Regra ABO de hemácias e de plasma (I1) conferida em material de hemoterapia; cada exemplo do Gherkin resolvido à mão contra I1 e I2 antes de aceitar o resultado esperado |
+| **C. Três camadas** | Responsabilidades das camadas, regra de dependência, árvore de pacotes, regras ArchUnit, camada lógica × tier | Lucas e Saulo | Cada seta do diagrama comparada com os imports previstos na árvore de pacotes (nenhuma seta de aplicação para dados); regras ArchUnit lidas contra a inversão de dependência |
+| **D. Microsserviços, saga e ADRs** | Os 4 serviços, comunicação, saga com compensação, comparação de estilos, ADR 0001 e 0002 | Lucas e Saulo | Saga percorrida passo a passo, conferindo que toda resposta volta ao orquestrador; gatilho do ADR 0001 comparado com as leituras/s calculadas nos três cenários |
+| **E. Cenários e orçamento** | Premissas de carga, Lei de Little, instâncias, disponibilidade composta e fórmulas da planilha | Thiago e Eloi | Contas refeitas na calculadora e na planilha `orcamento.xlsx`; SLAs lidos nas páginas oficiais da AWS; **preços levantados pelo squad, sem IA**, na AWS Pricing Calculator e no render.com em 12/11/2026 |
+| **Diagramas, README e slides** | Código Mermaid dos diagramas, README e os slides | Ewerton (PO) | Revisão final da coerência entre documento, diagramas, README e slides antes de cada entrega |
+| **Cucumber-JVM** (ferramenta, não IA) | Execução do cenário Gherkin da seção B | — | Na Parte 3, com o código |
 
 Nenhum preço sugerido por IA foi usado: todos os valores do orçamento vêm das fontes oficiais consultadas pelo squad.
 

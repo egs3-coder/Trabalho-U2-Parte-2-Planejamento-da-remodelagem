@@ -3,6 +3,9 @@
 Planejamento da remodelagem do Rota Vital: DDD, arquitetura em três camadas, projeção com microsserviços e três cenários com orçamento.
 Infraestrutura de Software · ADS · CESAR School · 2026.2
 
+
+> **Devolutiva do professor (13/11 e 16/11): todos os pontos aplicados.** A lista completa das correções está no [PR #1](https://github.com/egs3-coder/Trabalho-U2-Parte-2-Planejamento-da-remodelagem/pull/1): compatibilidade por hemocomponente, gatilho do ADR 0001 (~10 leituras/s), disponibilidade composta (99,93%), saga orquestrada, regra de dependência e legendas. A seção [Uso de IA](docs/arquitetura/documento.md#uso-de-ia) detalha, parte por parte, o que o Claude gerou e quem do squad validou.
+
 ## Equipe
 
 | Integrante | Papel |
