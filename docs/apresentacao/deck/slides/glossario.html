@@ -1,0 +1,16 @@
+<section id="glossario">
+<p class="kicker">A · Linguagem ubíqua <span class="who">· Pablo</span></p>
+<h2>A mesma palavra muda de sentido em cada contexto</h2>
+<p style="margin-bottom:32px">Cinco bounded contexts: <b>Estoque · Requisição (core) · Expedição · Transporte (core) · Rede</b></p>
+<table>
+<tr><th>Termo</th><th>Contexto</th><th>Significa</th></tr>
+<tr><td><b>Bolsa</b></td><td>Estoque</td><td>Unidade com doação, tipo sanguíneo, validade e status</td></tr>
+<tr><td><b>Bolsa</b></td><td>Expedição</td><td>Volume a embalar: código de barras e posição na caixa</td></tr>
+<tr><td><b>Entrega</b></td><td>Requisição</td><td>Hospital confirma o recebimento; encerra o pedido</td></tr>
+<tr><td><b>Entrega</b></td><td>Transporte</td><td>Caixa chega ao destino; encerra a viagem</td></tr>
+</table>
+<aside>FALA — PABLO (≈45 s)
+"Daí saíram cinco bounded contexts: Estoque, Requisição, Expedição, Transporte e Rede. O glossário mostra por que separar: 'bolsa' no Estoque é a unidade com tipo sanguíneo e validade; na Expedição é só um volume com código de barras para embalar. 'Entrega' na Requisição é o hospital confirmar e encerrar o pedido; no Transporte é a caixa chegar e encerrar a viagem. Se tudo estivesse num modelo só, essas palavras iam brigar. O João mostra como os contextos se conversam."
+
+SE PERGUNTAREM: "Por que Rede é separado?" → Hospitais e endereços mudam pouco e são consultados por todos; ela expõe um serviço aberto.</aside>
+</section>

@@ -1,0 +1,23 @@
+<section id="microsservicos" class="alt">
+<p class="kicker">D · Projeção com microsserviços <span class="who">· Lucas</span></p>
+<h2>Quatro serviços, um banco para cada</h2>
+<div class="row">
+<div class="panel"><img src="/_blob/5329e8d58edfc2938b723884af495731" alt="Comunicação entre requisicao, estoque, expedicao e transporte, cada um com seu banco, eventos SNS e SQS e telemetria MQTT" style="width:900px; height:557px"></div>
+<div style="flex:1">
+<h3>Serviços</h3>
+<p style="margin-bottom:28px">estoque · requisicao (+ Rede) · expedicao · transporte</p>
+<h3>Comunicação</h3>
+<ul class="plain" style="margin-bottom:28px">
+<li><b>REST</b> só para consulta na tela</li>
+<li><b>Eventos</b> SNS + SQS com outbox</li>
+<li><b>MQTT</b> para a telemetria</li>
+</ul>
+<h3>Dados</h3>
+<p>Ninguém lê a tabela do outro.</p>
+</div>
+</div>
+<aside>FALA — LUCAS (≈40 s)
+"Se o sistema crescer, esses módulos viram quatro serviços: estoque, requisição — que absorve a Rede —, expedição e transporte, cada um com seu próprio banco. REST só onde o usuário espera a resposta na tela; o resto é por eventos em SNS e SQS, gravados com outbox para não perder nenhum. A telemetria das caixas chega por MQTT. Ninguém lê a tabela do outro serviço. O Saulo explica a saga que costura esses serviços."
+
+SE PERGUNTAREM: "O que é outbox?" → O evento é gravado numa tabela na mesma transação do dado; um processo publica depois. Se a fila cair, o evento espera na tabela (ADR 0002).</aside>
+</section>

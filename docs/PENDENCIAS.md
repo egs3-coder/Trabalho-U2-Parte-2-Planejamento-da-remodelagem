@@ -1,6 +1,6 @@
-# Pendências até a entrega (24/11, 19h15)
+# Pendências até a entrega (26/11, 19h15)
 
-- [ ] **Pré-entrega (17/11, até 19h15):** enviar [`entregas/Hemotrack-Pre-entrega-Secoes-A-e-C.pdf`](entregas/Hemotrack-Pre-entrega-Secoes-A-e-C.pdf) no Classroom.
+- [ ] **Pré-entrega (19/11, até 19h15, sem nota):** enviar [`entregas/Hemotrack-Pre-entrega-Secoes-A-e-C.pdf`](entregas/Hemotrack-Pre-entrega-Secoes-A-e-C.pdf) e [`entregas/Hemotrack-Pre-entrega-Secoes-A-e-C-Slides.pdf`](entregas/Hemotrack-Pre-entrega-Secoes-A-e-C-Slides.pdf) no Classroom.
 - [x] **Devolutiva do professor (13/11) aplicada:**
     - [x] I1 considera o hemocomponente (plasma inverte a regra); Gherkin com exemplos de plasma
     - [x] ADR 0001: gatilho de extração do Transporte ajustado para ~10 leituras/s (alto tem 20/s)
@@ -9,7 +9,7 @@
     - [x] Diagrama de dependência sem seta aplicação → dados
     - [x] Legendas do README com US$ 152,07 e US$ 472,88
     - [x] Uso de IA: quem conferiu cada parte
-- [ ] **Cada responsável confirma a validação registrada em "Uso de IA"** (Pablo e João: domínio e regra ABO de plasma; Lucas e Saulo: camadas, saga e ADRs; Thiago e Eloi: contas e SLAs; Ewerton: revisão final). Se algo não foi feito, fazer ou corrigir o texto antes de 24/11.
+- [ ] **Cada responsável confirma a validação registrada em "Uso de IA"** (Pablo e João: domínio e regra ABO de plasma; Lucas e Saulo: camadas, saga e ADRs; Thiago e Eloi: contas e SLAs; Ewerton: revisão final). Se algo não foi feito, fazer ou corrigir o texto antes de 26/11.
 - [ ] **Parte 3:** levar `docs/arquitetura/` (mesma estrutura) e `features/` para o repositório do código, junto da esteira da Parte 1.
 - [ ] **Ensaio cruzado:** cada integrante explica domínio, contas e saga (o professor vai sortear quem fala).
 - [x] **Conferir os preços** (feito em 12/11/2026) na fonte oficial (o professor não aceita preço sugerido por IA):
@@ -17,6 +17,6 @@
     - [x] AWS (moderado e alto): calculator.aws, região US East (N. Virginia), com Fargate ARM, ALB, RDS PostgreSQL Multi-AZ (db.t4g.small e db.t4g.large), gp3, IPv4, SQS, CloudWatch Logs e S3
     - [x] Atualizar valores e data em [`arquitetura/orcamento.xlsx`](arquitetura/orcamento.xlsx) e no documento
 - [x] **Revisar a seção "Uso de IA"** com o que o squad realmente fez e validou.
-- [ ] **Slides** da apresentação (enviar no Classroom junto com o PDF).
-- [ ] **Ensaiar** com cronômetro seguindo o [roteiro](apresentacao/roteiro.md).
-- [ ] **Entrega final (24/11, até 19h15):** PDF final de até 12 páginas + slides no Classroom.
+- [x] **Slides** da apresentação: [`entregas/Hemotrack-Rota-Vital-Parte-2-Slides.pdf`](entregas/Hemotrack-Rota-Vital-Parte-2-Slides.pdf) (17 slides, por dupla).
+- [ ] **Ensaiar** com cronômetro seguindo o [roteiro de fala](apresentacao/roteiro-de-fala.md).
+- [ ] **Entrega final (26/11, até 19h15):** PDF do documento (até 12 páginas) + PDF dos slides no Classroom; diagramas, planilha e ADRs já estão em `docs/arquitetura/`.

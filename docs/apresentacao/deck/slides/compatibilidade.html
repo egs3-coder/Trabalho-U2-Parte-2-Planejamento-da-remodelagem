@@ -1,0 +1,22 @@
+<section id="compatibilidade">
+<p class="kicker">B · Modelo tático <span class="who">· João</span></p>
+<h2>A compatibilidade depende do hemocomponente</h2>
+<div class="row">
+<div class="panel"><img src="/_blob/b1ad863105abe646ec8d02b92de20bd8" alt="Agregado Requisição com ItemRequisicao, AlocacaoBolsa, Hemocomponente, TipoSanguineo e Validade" style="width:384px; height:584px"></div>
+<div style="flex:1">
+<p style="margin-bottom:24px"><b>I1:</b> hemácias levam antígenos, plasma leva anticorpos. Por isso a regra se inverte.</p>
+<table>
+<tr><th>Receptor A+</th><th>Hemácias</th><th>Plasma</th></tr>
+<tr><td>Bolsa O−</td><td class="ok">aceita</td><td class="no">recusa</td></tr>
+<tr><td>Bolsa AB−</td><td class="no">recusa</td><td class="ok">aceita</td></tr>
+<tr><td>Bolsa A+</td><td class="ok">aceita</td><td class="ok">aceita</td></tr>
+</table>
+<p class="note">Hemácias: O− serve a todos. Plasma: AB serve a todos e o Rh não conta. Também protegemos validade (I2), quantidade (I3), justificativa na emergência (I4) e ciclo de vida (I5).</p>
+</div>
+</div>
+<aside>FALA — JOÃO (≈55 s)
+"O agregado central é a Requisição. Ela é a raiz e protege cinco invariantes; a principal é a compatibilidade. Na primeira versão a gente olhava só o tipo sanguíneo, mas a regra depende do hemocomponente. Hemácias levam antígenos: a bolsa não pode ter antígeno que o receptor não tem, por isso O negativo serve a todos. Plasma leva anticorpos, então a regra se inverte: o plasma AB serve a todos e o Rh não conta. Na tabela, para um receptor A+, a mesma bolsa O− é aceita em hemácias e recusada em plasma. Essa regra fica no objeto de valor Hemocomponente, e o cenário Gherkin testa os dois casos. Agora o Lucas mostra a arquitetura."
+
+SE PERGUNTAREM: "Por que a Requisição é a raiz?" → É ela que tem todas as informações para decidir se uma alocação é válida; nada altera um item sem passar por ela.
+"E plaquetas?" → Ficaram fora até a regra ser validada pelo responsável técnico do hemocentro.</aside>
+</section>

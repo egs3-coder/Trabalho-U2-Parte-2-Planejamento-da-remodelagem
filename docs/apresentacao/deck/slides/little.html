@@ -1,0 +1,15 @@
+<section id="little">
+<p class="kicker">E · Lei de Little <span class="who">· Thiago</span></p>
+<h2>L = λ × W diz quantas instâncias precisamos</h2>
+<table>
+<tr><th>Cenário</th><th>Pico λ</th><th>W</th><th>L = λ × W</th><th>Pela conta (L ÷ 7)</th><th>Adotadas</th></tr>
+<tr><td><b>Baixo</b> · piloto Recife</td><td>3 req/s</td><td>0,20 s</td><td>0,6</td><td>1</td><td>1</td></tr>
+<tr><td><b>Moderado</b> · Pernambuco</td><td>20 req/s</td><td>0,20 s</td><td>4</td><td>1</td><td><b>2</b></td></tr>
+<tr><td><b>Alto</b> · Nordeste</td><td>120 req/s</td><td>0,25 s</td><td>30</td><td>5</td><td><b>3 a 6 + 2</b></td></tr>
+</table>
+<p class="note"><b>Por que adotamos mais do que a conta:</b> no moderado a carga cabe em 1 instância, mas 99,9% exige uma segunda em outra zona. No alto, autoscaling com folga N+1 e 2 tarefas do Transporte. O banco não é gargalo: 120 × 0,05 s = 6 conexões.</p>
+<aside>FALA — THIAGO (≈45 s)
+"Para dimensionar usamos a Lei de Little: L é igual a lambda vezes W, ou seja, quantas requisições estão sendo atendidas ao mesmo tempo. No alto, 120 requisições por segundo vezes 0,25 segundo dá 30 simultâneas. Cada instância aguenta umas 7 com folga, então a conta pede 5. Mas a conta da carga não é tudo: no moderado ela cabe em uma instância, e mesmo assim usamos duas, porque 99,9% de disponibilidade exige uma segunda em outra zona. O banco não é gargalo: 120 vezes 0,05 dá só 6 conexões ocupadas."
+
+SE PERGUNTAREM: "De onde vem o 7?" → Estimativa de 10 simultâneas por vCPU com 70% de folga; será medida no teste de carga da Parte 3.</aside>
+</section>
