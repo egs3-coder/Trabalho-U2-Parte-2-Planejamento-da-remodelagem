@@ -45,7 +45,7 @@ Infraestrutura de Software · ADS · CESAR School · 2026.2
 
 **Parte 3:** a pasta `docs/arquitetura/` vai, com a mesma estrutura, para o repositório do código junto da esteira da Parte 1 (ver [`PENDENCIAS.md`](docs/PENDENCIAS.md)).
 
-**Apresentação:** [`roteiro.md`](docs/apresentacao/roteiro.md) (divisão por integrante, contas e perguntas prováveis) · **Pendências:** [`PENDENCIAS.md`](docs/PENDENCIAS.md)
+**Apresentação:** [`roteiro-de-fala.md`](docs/apresentacao/roteiro-de-fala.md) (fala de cada dupla, slide por slide) · [`roteiro.md`](docs/apresentacao/roteiro.md) (divisão por integrante, contas e perguntas prováveis) · **Pendências:** [`PENDENCIAS.md`](docs/PENDENCIAS.md)
 
 ## Estrutura
 
