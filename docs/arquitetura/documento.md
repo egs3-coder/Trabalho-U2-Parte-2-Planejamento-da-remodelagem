@@ -2,7 +2,7 @@
 
 Squad **Hemotrack** · Infraestrutura de Software · ADS · CESAR School · 2026.2
 
-> Versão em PDF (11 páginas): [`docs/entregas/Hemotrack-Rota-Vital-Parte-2.pdf`](../entregas/Hemotrack-Rota-Vital-Parte-2.pdf)
+> Versão em PDF (12 páginas): [`docs/entregas/Hemotrack-Rota-Vital-Parte-2.pdf`](../entregas/Hemotrack-Rota-Vital-Parte-2.pdf)
 
 ## Identificação e premissas
 
