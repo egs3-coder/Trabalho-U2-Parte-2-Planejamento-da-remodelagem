@@ -9,7 +9,12 @@
     - [x] Diagrama de dependência sem seta aplicação → dados
     - [x] Legendas do README com US$ 152,07 e US$ 472,88
     - [x] Uso de IA: quem conferiu cada parte
-- [ ] **Cada responsável confirma a validação registrada em "Uso de IA"** (Pablo e João: domínio e regra ABO de plasma; Lucas e Saulo: camadas, saga e ADRs; Thiago e Eloi: contas e SLAs; Ewerton: revisão final). Se algo não foi feito, fazer ou corrigir o texto antes de 26/11.
+- [x] **Cada responsável confirma a validação registrada em "Uso de IA"** (confirmado em 25/11):
+    - [x] Pablo e João: domínio e regra ABO de plasma
+    - [x] Lucas e Saulo: camadas, saga e ADRs
+    - [x] Thiago e Eloi: contas e SLAs
+    - [x] Ewerton: revisão final
+- [x] **Gherkin do documento (B.3) igual ao [`features/alocar_bolsa.feature`](../features/alocar_bolsa.feature)**, que é o arquivo executado na Parte 3; PDF do documento regenerado (12 páginas).
 - [ ] **Parte 3:** levar `docs/arquitetura/` (mesma estrutura) e `features/` para o repositório do código, junto da esteira da Parte 1.
 - [ ] **Ensaio cruzado:** cada integrante explica domínio, contas e saga (o professor vai sortear quem fala).
 - [x] **Conferir os preços** (feito em 12/11/2026) na fonte oficial (o professor não aceita preço sugerido por IA):

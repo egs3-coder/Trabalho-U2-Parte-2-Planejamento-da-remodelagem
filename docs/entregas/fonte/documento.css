@@ -19,6 +19,8 @@ tr { break-inside: avoid; }
 code { font-family: "JetBrains Mono", monospace; font-size: 7.9pt; color: var(--red2); }
 pre { background: var(--card); color: #dbe2ea; border-radius: 6pt; border-top: 2.5pt solid #00c8d4; padding: 7pt 9pt; font-size: 7.3pt; line-height: 1.32; white-space: pre-wrap; break-inside: avoid; }
 pre code { color: #dbe2ea; font-size: 7.3pt; }
+pre.gherkin { padding: 7pt 6pt; white-space: pre; overflow: hidden; }
+pre.gherkin code { font-size: 5.8pt; }
 img { max-width: 70%; display: block; margin: 4pt auto 6pt; }
 img.alto { max-width: 40%; }
 img.saga { max-width: 56%; }
